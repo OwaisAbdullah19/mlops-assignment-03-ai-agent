@@ -1,0 +1,7 @@
+FROM apache/airflow:3.1.0-python3.11
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends git && rm -rf /var/lib/apt/lists/*
+USER airflow
+RUN pip install --no-cache-dir "apache-airflow==3.1.0" "mlflow==3.1.4" "scikit-learn==1.6.1" "pandas==2.2.3" "numpy==2.2.6" "joblib==1.5.1" "PyYAML==6.0.2"
+RUN git config --global --add safe.directory /opt/project
+ENV PYTHONPATH=/opt/project
