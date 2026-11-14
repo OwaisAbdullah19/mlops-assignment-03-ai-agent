@@ -25,7 +25,7 @@ def main():
     if target.exists():
         raise SystemExit("Output must be a new directory")
     commit = run("git", "rev-parse", "--verify", f"{args.revision}^{{commit}}")
-    remote = run("dvc", "remote", "get-url", "local")
+    remote = run("dvc", "config", "remote.local.url")
     run("git", "clone", "--no-hardlinks", str(root), str(target))
     run("git", "checkout", "--detach", commit, cwd=target)
     run("dvc", "remote", "add", "--local", "--force", "-d", "local", remote, cwd=target)

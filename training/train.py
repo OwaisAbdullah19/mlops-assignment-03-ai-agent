@@ -96,6 +96,8 @@ def evaluate(dataset, output, c=1.0, failure="none", track=True):
     }
     (out / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
     if track:
+        os.environ.setdefault("MLFLOW_HTTP_REQUEST_TIMEOUT", os.getenv("TOOL_TIMEOUT_SECONDS", "15"))
+        os.environ.setdefault("MLFLOW_HTTP_REQUEST_MAX_RETRIES", "0")
         import mlflow
 
         mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000"))
@@ -144,6 +146,10 @@ def quality_gate(output):
 
 
 def main():
+    if os.getenv("TRAINING_DEBUG_STACKS") == "1":
+        import faulthandler
+
+        faulthandler.dump_traceback_later(30, repeat=True)
     p = argparse.ArgumentParser()
     p.add_argument("--dataset", default="data/iris.csv")
     p.add_argument("--output", default="artifacts")
@@ -155,9 +161,13 @@ def main():
         help="Local validation only; still requires real committed provenance",
     )
     args = p.parse_args()
+    print("Stage: validation and preprocessing", flush=True)
     preprocess(args.dataset, args.output, args.failure)
+    print("Stage: training", flush=True)
     train(args.output, args.c)
+    print("Stage: evaluation and MLflow artifacts", flush=True)
     metadata = evaluate(args.dataset, args.output, args.c, args.failure, not args.no_track)
+    print("Stage: quality gate", flush=True)
     quality_gate(args.output)
     print(json.dumps(metadata, indent=2))
 

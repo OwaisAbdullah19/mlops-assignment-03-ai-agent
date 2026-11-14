@@ -49,7 +49,7 @@ def main():
                 backend,
                 "--serve-artifacts",
                 "--artifacts-destination",
-                str(runtime / "mlartifacts"),
+                (runtime / "mlartifacts").as_uri(),
             ],
             stdout=logfile,
             stderr=subprocess.STDOUT,
@@ -68,6 +68,18 @@ def main():
                     time.sleep(1)
                 else:
                     raise RuntimeError("Local MLflow server did not become ready")
+            from mlflow import MlflowClient
+
+            tracking = MlflowClient(tracking_uri=uri)
+            experiment = tracking.get_experiment_by_name("iris-training")
+            if experiment:
+                # This helper owns this local database; preserve interrupted attempts as failures.
+                interrupted = tracking.search_runs(
+                    [experiment.experiment_id], filter_string="attributes.status = 'RUNNING'"
+                )
+                for run in interrupted:
+                    tracking.set_tag(run.info.run_id, "training.interrupted_validation", "true")
+                    tracking.set_terminated(run.info.run_id, status="FAILED")
             for c in (0.1, 1.0, 10.0):
                 subprocess.run(
                     [
@@ -125,6 +137,10 @@ def main():
                     "numpy",
                     "pandas",
                     "httpx",
+                    "SQLAlchemy",
+                    "pathspec",
+                    "pytest",
+                    "ruff",
                 )
             }
             result = {
