@@ -3,9 +3,10 @@ import time
 from unittest.mock import Mock
 
 import httpx
+import pytest
 
 from agent.orchestrator import Agent
-from agent.schemas import Dag, Dataset, Empty, Namespace, Runs, ToolCall, Trigger
+from agent.schemas import Dag, DagRun, Dataset, Empty, Namespace, Runs, TaskLog, ToolCall, Trigger
 
 
 def candidate():
@@ -98,3 +99,36 @@ def test_structured_logs_do_not_contain_tool_arguments_or_secrets(registry, capl
     assert set(row) == {"tool", "status", "duration_ms", "request_id"}
     assert row["status"] == "error"
     assert "VERYSECRET" not in caplog.text
+
+
+@pytest.mark.parametrize("failed_task", ["validation", "quality_gate"])
+def test_pipeline_diagnostics_find_failed_task_after_upstream_failures(registry, settings, failed_task):
+    registry.add(
+        "airflow_runs",
+        "runs",
+        Dag,
+        lambda **kw: {
+            "dag_runs": [
+                {
+                    "dag_run_id": "run-1",
+                    "state": "failed",
+                    "conf": {"failure": "quality" if failed_task == "quality_gate" else "validation"},
+                }
+            ]
+        },
+    )
+    tasks = [
+        {"task_id": "evaluation_mlflow", "state": "upstream_failed"},
+        {"task_id": "preprocessing", "state": "upstream_failed"},
+        {"task_id": failed_task, "state": "failed", "try_number": 3},
+    ]
+    registry.add(
+        "airflow_tasks", "tasks", DagRun, lambda **kw: {"task_instances": tasks, "failed_tasks": tasks}
+    )
+    logs = Mock(return_value={"logs": f"Injected failure in {failed_task}"})
+    registry.add("airflow_logs", "logs", TaskLog, logs)
+    result = Agent(settings, registry).ask("Report training pipeline status")
+    logs.assert_called_once_with(dag_id="ml_training", run_id="run-1", task_id=failed_task, try_number=3)
+    assert f"Injected failure in {failed_task}" in result["answer"]
+    assert "does not establish production model degradation" in result["answer"]
+    assert "No retraining was initiated" in result["answer"]

@@ -34,7 +34,23 @@
     "tools": [
       {
         "tool": "airflow_runs",
-        "status": "error"
+        "status": "ok"
+      },
+      {
+        "tool": "airflow_tasks",
+        "status": "ok"
+      },
+      {
+        "tool": "airflow_logs",
+        "status": "ok"
+      },
+      {
+        "tool": "airflow_tasks",
+        "status": "ok"
+      },
+      {
+        "tool": "airflow_logs",
+        "status": "ok"
       }
     ]
   },
@@ -43,15 +59,15 @@
     "tools": [
       {
         "tool": "kubernetes_deployments",
-        "status": "error"
+        "status": "ok"
       },
       {
         "tool": "kubernetes_pods",
-        "status": "error"
+        "status": "ok"
       },
       {
         "tool": "kubernetes_services",
-        "status": "error"
+        "status": "ok"
       }
     ]
   },
@@ -72,19 +88,35 @@
       },
       {
         "tool": "kubernetes_deployments",
-        "status": "error"
+        "status": "ok"
       },
       {
         "tool": "kubernetes_pods",
-        "status": "error"
+        "status": "ok"
       },
       {
         "tool": "kubernetes_services",
-        "status": "error"
+        "status": "ok"
       },
       {
         "tool": "airflow_runs",
-        "status": "error"
+        "status": "ok"
+      },
+      {
+        "tool": "airflow_tasks",
+        "status": "ok"
+      },
+      {
+        "tool": "airflow_logs",
+        "status": "ok"
+      },
+      {
+        "tool": "airflow_tasks",
+        "status": "ok"
+      },
+      {
+        "tool": "airflow_logs",
+        "status": "ok"
       }
     ]
   }

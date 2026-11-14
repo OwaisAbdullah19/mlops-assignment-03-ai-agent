@@ -1,0 +1,78 @@
+{
+  "repository": "https://github.com/OwaisAbdullah19/mlops-assignment-03-ai-agent",
+  "observed_at": "2026-11-14T08:25:05.577370+00:00",
+  "runs": [
+    {
+      "id": 43575542026,
+      "name": "lint-and-test",
+      "html_url": "https://github.com/OwaisAbdullah19/mlops-assignment-03-ai-agent/actions/runs/43575542026",
+      "head_sha": "7b7dbafab7bc62cfb96f0c2fac5e55c31dfec33a",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "check",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pip install -e \".[dev]\"",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run ruff check .",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run ruff format --check .",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run pytest -q --junitxml=evidence/ci-tests.xml",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

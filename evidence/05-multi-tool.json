@@ -1,7 +1,7 @@
 {
-  "request_id": "88364c8bf3534a12b70b964d46ab58b5",
+  "request_id": "76666c7fb358400a949e63b5fa936235",
   "planner": "rules",
-  "answer": "Known facts:\n- Recent run ce387cbddbdb48fa82cb5c62d189b09e: status=FINISHED, f1=1.0, quality.passed=true. [E1 mlflow_best]\n- Recent run de3c8116f7314c4caf07c3a979d0f584: status=FINISHED, f1=0.9333333333333332, quality.passed=true. [E1 mlflow_best]\n- Recent run df8eaacfb78249409fce94a031b82d2e: status=FINISHED, f1=0.8653198653198654, quality.passed=true. [E1 mlflow_best]\n- Recent run 54b2bebbb43c49c6959b909613cc82b8: status=FAILED, f1=0.8653198653198654, quality.passed=true. [E1 mlflow_best]\n- Recent run 15b2e9dc93924a37a2f6cd4a6b6eed82: status=FAILED, f1=0.8653198653198654, quality.passed=true. [E1 mlflow_best]\n- Candidate ce387cbddbdb48fa82cb5c62d189b09e has f1=1.0. [E1 mlflow_best]\n- Selection scope: Most recent 5 runs of iris-training. Ranked finished runs by f1 (max); ties retain newest first. [E1 mlflow_best]\n- Dataset data/iris.csv: DVC 4224576f0267bf88902f87f0f6200967, Git bbacb09e2f149a738a8a1dd25e2b798242462151. [E2 dvc_version]\n- DVC workspace changes: {}. [E3 dvc_status]\n\nUncertainties:\n- kubernetes_deployments: Service unavailable or operation failed; state is unknown. [E4 kubernetes_deployments]\n- kubernetes_pods: Service unavailable or operation failed; state is unknown. [E5 kubernetes_pods]\n- kubernetes_services: Service unavailable or operation failed; state is unknown. [E6 kubernetes_services]\n- airflow_runs: Service unavailable or operation failed; state is unknown. [E7 airflow_runs]\n\nRecommended actions:\n- Validate quality gates, serving compatibility, and rollout health before promotion.\n- Available evidence does not establish that retraining is necessary. No retraining was initiated.",
+  "answer": "Known facts:\n- Recent run c06345848acb44e0b740c3df2a6581c5: status=FINISHED, f1=0.9333333333333332, quality.passed=false. [E1 mlflow_best]\n- Recent run 30b06df94cbb40c0bca0454296d06d18: status=FINISHED, f1=0.9333333333333332, quality.passed=true. [E1 mlflow_best]\n- Recent run ce387cbddbdb48fa82cb5c62d189b09e: status=FINISHED, f1=1.0, quality.passed=true. [E1 mlflow_best]\n- Recent run de3c8116f7314c4caf07c3a979d0f584: status=FINISHED, f1=0.9333333333333332, quality.passed=true. [E1 mlflow_best]\n- Recent run df8eaacfb78249409fce94a031b82d2e: status=FINISHED, f1=0.8653198653198654, quality.passed=true. [E1 mlflow_best]\n- Candidate ce387cbddbdb48fa82cb5c62d189b09e has f1=1.0. [E1 mlflow_best]\n- Selection scope: Most recent 5 runs of iris-training. Ranked finished runs by f1 (max); ties retain newest first. [E1 mlflow_best]\n- Dataset data/iris.csv: DVC 4224576f0267bf88902f87f0f6200967, Git bbacb09e2f149a738a8a1dd25e2b798242462151. [E2 dvc_version]\n- DVC workspace changes: {}. [E3 dvc_status]\n- Deployment iris-api: 2/2 ready, images ['mlops-inference:ce387cbddbdb']. [E4 kubernetes_deployments]\n- Pod iris-api-675b4f5497-8c7s8: phase=Running, ready=True, containers=[{'name': 'inference', 'ready': True, 'restarts': 3, 'reason': None, 'image': 'docker.io/library/mlops-inference:ce387cbddbdb'}]. [E5 kubernetes_pods]\n- Pod iris-api-675b4f5497-9nqb7: phase=Running, ready=True, containers=[{'name': 'inference', 'ready': True, 'restarts': 3, 'reason': None, 'image': 'docker.io/library/mlops-inference:ce387cbddbdb'}]. [E5 kubernetes_pods]\n- kubernetes_services: {\"services\": [{\"name\": \"iris-api\", \"type\": \"ClusterIP\", \"cluster_ip\": \"10.43.175.38\", \"selector\": {\"app\": \"iris-api\"}, \"ports\": [{\"port\": 80, \"target_port\": \"http\"}]}]}. [E6 kubernetes_services]\n- DAG run agent__8f8761ce860c4d0d88b51674064dfbb1: failed. [E7 airflow_runs]\n- DAG run agent__3fe7c824bf6d4ea1b42111608b6c4d17: failed. [E7 airflow_runs]\n- DAG run agent__67f959bfee9448c9acb5f47cbfaa849d: success. [E7 airflow_runs]\n- Run agent__8f8761ce860c4d0d88b51674064dfbb1 declares a controlled quality failure injection; this test alone does not establish production model degradation. [E7 airflow_runs]\n- Run agent__3fe7c824bf6d4ea1b42111608b6c4d17 declares a controlled validation failure injection; this test alone does not establish production model degradation. [E7 airflow_runs]\n- Task validation: success. [E8 airflow_tasks]\n- Task preprocessing: success. [E8 airflow_tasks]\n- Task training: success. [E8 airflow_tasks]\n- Task evaluation_mlflow: success. [E8 airflow_tasks]\n- Task quality_gate: failed. [E8 airflow_tasks]\n- Diagnostic evidence: {\"logs\": \"{'content': [{'event': '::group::Log message source details', 'sources': ['/opt/airflow/logs/dag_id=ml_training/run_id=agent__8f8761ce860c4d0d88b51674064dfbb1/task_id=quality_gate/attempt=3.log']}, {'event': '::endgroup::'}, {'timestamp': '2026-11-14T08:39:48.876888Z', 'event': 'DAG bundles loaded: dags-folder', 'level': 'info', 'logger': 'airflow.dag_processing.bundles.manager.DagBundlesManager', 'filename': 'manager.py', 'lineno': 179}, {'timestamp': '2026-11-14T08:39:48.893815Z', 'event': 'Filling up the DagBag from /opt/project/dags/training_pipeline.py', 'level': 'info', 'logger': 'airflow.models.dagbag.DagBag', 'filename': 'dagbag.py', 'lineno': 593}, {'timestamp': '2026-11-14T08:40:10.434554Z', 'event': 'Task failed with exception', 'level': 'error', 'logger': 'task', 'filename': 'task_runner.py', 'lineno': 994, 'error_detail': [{'exc_type': 'ValueError', 'exc_value': 'Quality gate failed: F1=0.9333 < 1.01', 'exc_notes': [], 'syntax_error': None, 'is_cause': False, 'frames': [{'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/execution_time/task_runner.py', 'lineno': 920, 'name': 'run'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/execution_time/task_runner.py', 'lineno': 1307, 'name': '_execute_task'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/bases/operator.py', 'lineno': 416, 'name': 'wrapper'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/bases/decorator.py', 'lineno': 252, 'name': 'execute'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/bases/operator.py', 'lineno': 416, 'name': 'wrapper'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/providers/standard/operators/python.py', 'lineno': 216, 'name': 'execute'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/providers/standard/operators/python.py', 'lineno': 239, 'name': 'execute_callable'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/execution_time/callback_runner.py', 'lineno': 82, 'name': 'run'}, {'filename': '/opt/project/dags/training_pipeline.py', 'lineno': 76, 'name': 'quality_gate'}, {'filename': '/opt/project/training/train.py', 'lineno': 139, 'name': 'quality_gate'}], 'is_group': False, 'exceptions': []}]}], 'continuation_token': None}\"}. [E9 airflow_logs]\n- Task preprocessing: upstream_failed. [E10 airflow_tasks]\n- Task training: upstream_failed. [E10 airflow_tasks]\n- Task evaluation_mlflow: upstream_failed. [E10 airflow_tasks]\n- Task quality_gate: upstream_failed. [E10 airflow_tasks]\n- Task validation: failed. [E10 airflow_tasks]\n- Diagnostic evidence: {\"logs\": \"{'content': [{'event': '::group::Log message source details', 'sources': ['/opt/airflow/logs/dag_id=ml_training/run_id=agent__3fe7c824bf6d4ea1b42111608b6c4d17/task_id=validation/attempt=3.log']}, {'event': '::endgroup::'}, {'timestamp': '2026-11-14T08:33:01.136764Z', 'event': 'DAG bundles loaded: dags-folder', 'level': 'info', 'logger': 'airflow.dag_processing.bundles.manager.DagBundlesManager', 'filename': 'manager.py', 'lineno': 179}, {'timestamp': '2026-11-14T08:33:01.141341Z', 'event': 'Filling up the DagBag from /opt/project/dags/training_pipeline.py', 'level': 'info', 'logger': 'airflow.models.dagbag.DagBag', 'filename': 'dagbag.py', 'lineno': 593}, {'timestamp': '2026-11-14T08:33:04.971934Z', 'event': 'Validating schema, finite values, class support and committed dataset digest', 'level': 'info', 'logger': 'unusual_prefix_61ec8ebdd7b5ef53fb4a323546fa1cd2b8bdafbf_training_pipeline', 'filename': 'training_pipeline.py', 'lineno': 38}, {'timestamp': '2026-11-14T08:33:04.984886Z', 'event': 'Task failed with exception', 'level': 'error', 'logger': 'task', 'filename': 'task_runner.py', 'lineno': 994, 'error_detail': [{'exc_type': 'ValueError', 'exc_value': 'Injected validation failure: required feature petal_width missing', 'exc_notes': [], 'syntax_error': None, 'is_cause': False, 'frames': [{'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/execution_time/task_runner.py', 'lineno': 920, 'name': 'run'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/execution_time/task_runner.py', 'lineno': 1307, 'name': '_execute_task'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/bases/operator.py', 'lineno': 416, 'name': 'wrapper'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/bases/decorator.py', 'lineno': 252, 'name': 'execute'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/bases/operator.py', 'lineno': 416, 'name': 'wrapper'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/providers/standard/operators/python.py', 'lineno': 216, 'name': 'execute'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/providers/standard/operators/python.py', 'lineno': 239, 'name': 'execute_callable'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/execution_time/callback_runner.py', 'lineno': 82, 'name': 'run'}, {'filename': '/opt/project/dags/training_pipeline.py', 'lineno': 39, 'name': 'validation'}, {'filename': '/opt/project/training/train.py', 'lineno': 25, 'name': 'validate'}], 'is_group': False, 'exceptions': []}]}], 'continuation_token': None}\"}. [E11 airflow_logs]\n- Deployment iris-api declares selected run ce387cbddbdb48fa82cb5c62d189b09e; confirm loaded identity via /metadata.\n\nRecommended actions:\n- Validate quality gates, serving compatibility, and rollout health before promotion.\n- The quality gate failed: inspect evaluation results and correct or retrain before promotion.\n- Training is blocked by failed validation; inspect schema, finite values and dataset provenance in the validation log. [E10 airflow_tasks]\n- No retraining was initiated.",
   "pending_actions": [],
   "evidence": [
     {
@@ -9,6 +9,54 @@
       "status": "ok",
       "data": {
         "runs": [
+          {
+            "run_id": "c06345848acb44e0b740c3df2a6581c5",
+            "experiment_id": "1",
+            "status": "FINISHED",
+            "start_time": 1794645442656,
+            "metrics": {
+              "f1": 0.9333333333333332,
+              "accuracy": 0.9333333333333333
+            },
+            "params": {
+              "C": "1.0",
+              "random_state": "42",
+              "test_size": "0.2",
+              "min_f1": "1.01"
+            },
+            "provenance": {
+              "dataset.path": "data/iris.csv",
+              "dataset.git_commit": "7b7dbafab7bc62cfb96f0c2fac5e55c31dfec33a",
+              "dataset.dvc_digest": "4224576f0267bf88902f87f0f6200967",
+              "dataset.sha256": "c52da941c4117668428d973554bb3380ba78c23400c2848e9b65107d63ccba47",
+              "quality.passed": "false",
+              "training.failure_injection": "quality"
+            }
+          },
+          {
+            "run_id": "30b06df94cbb40c0bca0454296d06d18",
+            "experiment_id": "1",
+            "status": "FINISHED",
+            "start_time": 1794645136401,
+            "metrics": {
+              "f1": 0.9333333333333332,
+              "accuracy": 0.9333333333333333
+            },
+            "params": {
+              "C": "1.0",
+              "random_state": "42",
+              "test_size": "0.2",
+              "min_f1": "0.85"
+            },
+            "provenance": {
+              "dataset.path": "data/iris.csv",
+              "dataset.git_commit": "7b7dbafab7bc62cfb96f0c2fac5e55c31dfec33a",
+              "dataset.dvc_digest": "4224576f0267bf88902f87f0f6200967",
+              "dataset.sha256": "c52da941c4117668428d973554bb3380ba78c23400c2848e9b65107d63ccba47",
+              "quality.passed": "true",
+              "training.failure_injection": "none"
+            }
+          },
           {
             "run_id": "ce387cbddbdb48fa82cb5c62d189b09e",
             "experiment_id": "1",
@@ -80,56 +128,6 @@
               "quality.passed": "true",
               "training.failure_injection": "none"
             }
-          },
-          {
-            "run_id": "54b2bebbb43c49c6959b909613cc82b8",
-            "experiment_id": "1",
-            "status": "FAILED",
-            "start_time": 1794639419199,
-            "metrics": {
-              "f1": 0.8653198653198654,
-              "accuracy": 0.8666666666666667
-            },
-            "params": {
-              "C": "0.1",
-              "random_state": "42",
-              "test_size": "0.2",
-              "min_f1": "0.85"
-            },
-            "provenance": {
-              "dataset.path": "data/iris.csv",
-              "dataset.git_commit": "f810fcbb8f1ef4cb222484964bfe282c71ba902d",
-              "dataset.dvc_digest": "4224576f0267bf88902f87f0f6200967",
-              "dataset.sha256": "c52da941c4117668428d973554bb3380ba78c23400c2848e9b65107d63ccba47",
-              "quality.passed": "true",
-              "training.failure_injection": "none",
-              "training.interrupted_validation": "true"
-            }
-          },
-          {
-            "run_id": "15b2e9dc93924a37a2f6cd4a6b6eed82",
-            "experiment_id": "1",
-            "status": "FAILED",
-            "start_time": 1794639177613,
-            "metrics": {
-              "f1": 0.8653198653198654,
-              "accuracy": 0.8666666666666667
-            },
-            "params": {
-              "C": "0.1",
-              "random_state": "42",
-              "test_size": "0.2",
-              "min_f1": "0.85"
-            },
-            "provenance": {
-              "dataset.path": "data/iris.csv",
-              "dataset.git_commit": "f810fcbb8f1ef4cb222484964bfe282c71ba902d",
-              "dataset.dvc_digest": "4224576f0267bf88902f87f0f6200967",
-              "dataset.sha256": "c52da941c4117668428d973554bb3380ba78c23400c2848e9b65107d63ccba47",
-              "quality.passed": "true",
-              "training.failure_injection": "none",
-              "training.interrupted_validation": "true"
-            }
           }
         ],
         "metric": "f1",
@@ -163,9 +161,9 @@
         "caution": "Candidate ranking alone does not establish production readiness."
       },
       "error": null,
-      "request_id": "88364c8bf3534a12b70b964d46ab58b5",
-      "duration_ms": 133.58,
-      "observed_at": "2026-11-14T07:05:28.617546+00:00"
+      "request_id": "76666c7fb358400a949e63b5fa936235",
+      "duration_ms": 22032.73,
+      "observed_at": "2026-11-14T08:59:40.256091+00:00"
     },
     {
       "tool": "dvc_version",
@@ -179,9 +177,9 @@
         "reference": "bbacb09e2f149a738a8a1dd25e2b798242462151:data/iris.csv.dvc"
       },
       "error": null,
-      "request_id": "88364c8bf3534a12b70b964d46ab58b5",
-      "duration_ms": 319.85,
-      "observed_at": "2026-11-14T07:05:28.937730+00:00"
+      "request_id": "76666c7fb358400a949e63b5fa936235",
+      "duration_ms": 711.38,
+      "observed_at": "2026-11-14T08:59:40.968655+00:00"
     },
     {
       "tool": "dvc_status",
@@ -191,47 +189,1052 @@
         "scope": "Training dataset pointer; unbuilt pipeline stages are excluded"
       },
       "error": null,
-      "request_id": "88364c8bf3534a12b70b964d46ab58b5",
-      "duration_ms": 7404.91,
-      "observed_at": "2026-11-14T07:05:36.343199+00:00"
+      "request_id": "76666c7fb358400a949e63b5fa936235",
+      "duration_ms": 9918.34,
+      "observed_at": "2026-11-14T08:59:50.887816+00:00"
     },
     {
       "tool": "kubernetes_deployments",
-      "status": "error",
-      "data": null,
-      "error": "Service unavailable or operation failed; state is unknown",
-      "request_id": "88364c8bf3534a12b70b964d46ab58b5",
-      "duration_ms": 1.37,
-      "observed_at": "2026-11-14T07:05:36.344981+00:00"
+      "status": "ok",
+      "data": {
+        "namespace": "mlops-agent",
+        "deployments": [
+          {
+            "name": "iris-api",
+            "desired": 2,
+            "ready": 2,
+            "available": 2,
+            "generation": 2,
+            "observed_generation": 2,
+            "updated": 2,
+            "images": [
+              "mlops-inference:ce387cbddbdb"
+            ],
+            "annotations": {
+              "mlops/model-run-id": "ce387cbddbdb48fa82cb5c62d189b09e"
+            }
+          }
+        ]
+      },
+      "error": null,
+      "request_id": "76666c7fb358400a949e63b5fa936235",
+      "duration_ms": 6175.98,
+      "observed_at": "2026-11-14T08:59:57.064267+00:00"
     },
     {
       "tool": "kubernetes_pods",
-      "status": "error",
-      "data": null,
-      "error": "Service unavailable or operation failed; state is unknown",
-      "request_id": "88364c8bf3534a12b70b964d46ab58b5",
-      "duration_ms": 0.78,
-      "observed_at": "2026-11-14T07:05:36.346123+00:00"
+      "status": "ok",
+      "data": {
+        "namespace": "mlops-agent",
+        "pods": [
+          {
+            "name": "iris-api-675b4f5497-8c7s8",
+            "phase": "Running",
+            "ready": true,
+            "containers": [
+              {
+                "name": "inference",
+                "ready": true,
+                "restarts": 3,
+                "reason": null,
+                "image": "docker.io/library/mlops-inference:ce387cbddbdb"
+              }
+            ],
+            "unhealthy": false,
+            "conditions": [
+              {
+                "type": "PodReadyToStartContainers",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "Initialized",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "Ready",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "ContainersReady",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "PodScheduled",
+                "status": "True",
+                "reason": null
+              }
+            ]
+          },
+          {
+            "name": "iris-api-675b4f5497-9nqb7",
+            "phase": "Running",
+            "ready": true,
+            "containers": [
+              {
+                "name": "inference",
+                "ready": true,
+                "restarts": 3,
+                "reason": null,
+                "image": "docker.io/library/mlops-inference:ce387cbddbdb"
+              }
+            ],
+            "unhealthy": false,
+            "conditions": [
+              {
+                "type": "PodReadyToStartContainers",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "Initialized",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "Ready",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "ContainersReady",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "PodScheduled",
+                "status": "True",
+                "reason": null
+              }
+            ]
+          }
+        ]
+      },
+      "error": null,
+      "request_id": "76666c7fb358400a949e63b5fa936235",
+      "duration_ms": 160.92,
+      "observed_at": "2026-11-14T08:59:57.225552+00:00"
     },
     {
       "tool": "kubernetes_services",
-      "status": "error",
-      "data": null,
-      "error": "Service unavailable or operation failed; state is unknown",
-      "request_id": "88364c8bf3534a12b70b964d46ab58b5",
-      "duration_ms": 1.19,
-      "observed_at": "2026-11-14T07:05:36.347670+00:00"
+      "status": "ok",
+      "data": {
+        "services": [
+          {
+            "name": "iris-api",
+            "type": "ClusterIP",
+            "cluster_ip": "10.43.175.38",
+            "selector": {
+              "app": "iris-api"
+            },
+            "ports": [
+              {
+                "port": 80,
+                "target_port": "http"
+              }
+            ]
+          }
+        ]
+      },
+      "error": null,
+      "request_id": "76666c7fb358400a949e63b5fa936235",
+      "duration_ms": 16.8,
+      "observed_at": "2026-11-14T08:59:57.242760+00:00"
     },
     {
       "tool": "airflow_runs",
-      "status": "error",
-      "data": null,
-      "error": "Service unavailable or operation failed; state is unknown",
-      "request_id": "88364c8bf3534a12b70b964d46ab58b5",
-      "duration_ms": 0.16,
-      "observed_at": "2026-11-14T07:05:36.348530+00:00"
+      "status": "ok",
+      "data": {
+        "dag_runs": [
+          {
+            "dag_run_id": "agent__8f8761ce860c4d0d88b51674064dfbb1",
+            "dag_id": "ml_training",
+            "logical_date": "2026-11-14T08:31:37.735109Z",
+            "queued_at": "2026-11-14T08:31:40.702141Z",
+            "start_date": "2026-11-14T08:33:08.671729Z",
+            "end_date": "2026-11-14T08:40:16.315641Z",
+            "duration": 427.643912,
+            "data_interval_start": "2026-11-14T08:31:37.735109Z",
+            "data_interval_end": "2026-11-14T08:31:37.735109Z",
+            "run_after": "2026-11-14T08:31:37.735109Z",
+            "last_scheduling_decision": "2026-11-14T08:40:16.284511Z",
+            "run_type": "manual",
+            "state": "failed",
+            "triggered_by": "rest_api",
+            "triggering_user_name": "admin",
+            "conf": {
+              "failure": "quality"
+            },
+            "note": null,
+            "dag_versions": [
+              {
+                "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+                "version_number": 1,
+                "dag_id": "ml_training",
+                "bundle_name": "dags-folder",
+                "bundle_version": null,
+                "created_at": "2026-11-14T08:29:32.193389Z",
+                "dag_display_name": "ml_training",
+                "bundle_url": null
+              }
+            ],
+            "bundle_version": null,
+            "dag_display_name": "ml_training"
+          },
+          {
+            "dag_run_id": "agent__3fe7c824bf6d4ea1b42111608b6c4d17",
+            "dag_id": "ml_training",
+            "logical_date": "2026-11-14T08:31:27.509519Z",
+            "queued_at": "2026-11-14T08:31:36.974387Z",
+            "start_date": "2026-11-14T08:32:27.529298Z",
+            "end_date": "2026-11-14T08:33:07.602650Z",
+            "duration": 40.073352,
+            "data_interval_start": "2026-11-14T08:31:27.509519Z",
+            "data_interval_end": "2026-11-14T08:31:27.509519Z",
+            "run_after": "2026-11-14T08:31:27.509519Z",
+            "last_scheduling_decision": "2026-11-14T08:33:07.595327Z",
+            "run_type": "manual",
+            "state": "failed",
+            "triggered_by": "rest_api",
+            "triggering_user_name": "admin",
+            "conf": {
+              "failure": "validation"
+            },
+            "note": null,
+            "dag_versions": [
+              {
+                "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+                "version_number": 1,
+                "dag_id": "ml_training",
+                "bundle_name": "dags-folder",
+                "bundle_version": null,
+                "created_at": "2026-11-14T08:29:32.193389Z",
+                "dag_display_name": "ml_training",
+                "bundle_url": null
+              }
+            ],
+            "bundle_version": null,
+            "dag_display_name": "ml_training"
+          },
+          {
+            "dag_run_id": "agent__67f959bfee9448c9acb5f47cbfaa849d",
+            "dag_id": "ml_training",
+            "logical_date": "2026-11-14T08:31:23.589189Z",
+            "queued_at": "2026-11-14T08:31:27.336384Z",
+            "start_date": "2026-11-14T08:31:28.606327Z",
+            "end_date": "2026-11-14T08:32:26.405946Z",
+            "duration": 57.799619,
+            "data_interval_start": "2026-11-14T08:31:23.589189Z",
+            "data_interval_end": "2026-11-14T08:31:23.589189Z",
+            "run_after": "2026-11-14T08:31:23.589189Z",
+            "last_scheduling_decision": "2026-11-14T08:32:26.396121Z",
+            "run_type": "manual",
+            "state": "success",
+            "triggered_by": "rest_api",
+            "triggering_user_name": "admin",
+            "conf": {
+              "failure": "none"
+            },
+            "note": null,
+            "dag_versions": [
+              {
+                "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+                "version_number": 1,
+                "dag_id": "ml_training",
+                "bundle_name": "dags-folder",
+                "bundle_version": null,
+                "created_at": "2026-11-14T08:29:32.193389Z",
+                "dag_display_name": "ml_training",
+                "bundle_url": null
+              }
+            ],
+            "bundle_version": null,
+            "dag_display_name": "ml_training"
+          }
+        ],
+        "total_entries": 3
+      },
+      "error": null,
+      "request_id": "76666c7fb358400a949e63b5fa936235",
+      "duration_ms": 5578.38,
+      "observed_at": "2026-11-14T09:00:02.821574+00:00"
+    },
+    {
+      "tool": "airflow_tasks",
+      "status": "ok",
+      "data": {
+        "task_instances": [
+          {
+            "id": "01a1d92f-08ae-7f2f-a58b-0530d497c591",
+            "task_id": "validation",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__8f8761ce860c4d0d88b51674064dfbb1",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:37.735109Z",
+            "run_after": "2026-11-14T08:31:37.735109Z",
+            "start_date": "2026-11-14T08:33:08.929408Z",
+            "end_date": "2026-11-14T08:33:14.504368Z",
+            "duration": 5.57496,
+            "state": "success",
+            "try_number": 1,
+            "max_tries": 2,
+            "task_display_name": "validation",
+            "dag_display_name": "ml_training",
+            "hostname": "b58c54df6502",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 5,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": "2026-11-14T08:33:08.823238Z",
+            "scheduled_when": "2026-11-14T08:33:08.743501Z",
+            "pid": 82,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a1d92f-08af-7b78-857e-d9a5d1870aa4",
+            "task_id": "preprocessing",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__8f8761ce860c4d0d88b51674064dfbb1",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:37.735109Z",
+            "run_after": "2026-11-14T08:31:37.735109Z",
+            "start_date": "2026-11-14T08:33:15.040753Z",
+            "end_date": "2026-11-14T08:33:19.970561Z",
+            "duration": 4.929808,
+            "state": "success",
+            "try_number": 1,
+            "max_tries": 2,
+            "task_display_name": "preprocessing",
+            "dag_display_name": "ml_training",
+            "hostname": "b58c54df6502",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 4,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": "2026-11-14T08:33:14.970509Z",
+            "scheduled_when": "2026-11-14T08:33:14.870619Z",
+            "pid": 88,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a1d92f-08b0-74cc-b47d-5b063be50bc3",
+            "task_id": "training",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__8f8761ce860c4d0d88b51674064dfbb1",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:37.735109Z",
+            "run_after": "2026-11-14T08:31:37.735109Z",
+            "start_date": "2026-11-14T08:33:21.091040Z",
+            "end_date": "2026-11-14T08:33:33.025418Z",
+            "duration": 11.934378,
+            "state": "success",
+            "try_number": 1,
+            "max_tries": 2,
+            "task_display_name": "training",
+            "dag_display_name": "ml_training",
+            "hostname": "b58c54df6502",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 3,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": "2026-11-14T08:33:21.034485Z",
+            "scheduled_when": "2026-11-14T08:33:20.911091Z",
+            "pid": 90,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a1d932-37f2-72af-84d8-d5bde9e271cb",
+            "task_id": "evaluation_mlflow",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__8f8761ce860c4d0d88b51674064dfbb1",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:37.735109Z",
+            "run_after": "2026-11-14T08:31:37.735109Z",
+            "start_date": "2026-11-14T08:35:22.878929Z",
+            "end_date": "2026-11-14T08:37:40.599714Z",
+            "duration": 137.720785,
+            "state": "success",
+            "try_number": 2,
+            "max_tries": 2,
+            "task_display_name": "evaluation_mlflow",
+            "dag_display_name": "ml_training",
+            "hostname": "b58c54df6502",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 2,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": "2026-11-14T08:35:21.291904Z",
+            "scheduled_when": "2026-11-14T08:35:20.658864Z",
+            "pid": 100,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a1d936-4ed2-7452-975a-4aa7797fe12e",
+            "task_id": "quality_gate",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__8f8761ce860c4d0d88b51674064dfbb1",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:37.735109Z",
+            "run_after": "2026-11-14T08:31:37.735109Z",
+            "start_date": "2026-11-14T08:39:48.514414Z",
+            "end_date": "2026-11-14T08:40:15.569135Z",
+            "duration": 27.054721,
+            "state": "failed",
+            "try_number": 3,
+            "max_tries": 2,
+            "task_display_name": "quality_gate",
+            "dag_display_name": "ml_training",
+            "hostname": "b58c54df6502",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 1,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": "2026-11-14T08:39:48.202330Z",
+            "scheduled_when": "2026-11-14T08:39:48.107256Z",
+            "pid": 120,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          }
+        ],
+        "total_entries": 5,
+        "failed_tasks": [
+          {
+            "id": "01a1d936-4ed2-7452-975a-4aa7797fe12e",
+            "task_id": "quality_gate",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__8f8761ce860c4d0d88b51674064dfbb1",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:37.735109Z",
+            "run_after": "2026-11-14T08:31:37.735109Z",
+            "start_date": "2026-11-14T08:39:48.514414Z",
+            "end_date": "2026-11-14T08:40:15.569135Z",
+            "duration": 27.054721,
+            "state": "failed",
+            "try_number": 3,
+            "max_tries": 2,
+            "task_display_name": "quality_gate",
+            "dag_display_name": "ml_training",
+            "hostname": "b58c54df6502",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 1,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": "2026-11-14T08:39:48.202330Z",
+            "scheduled_when": "2026-11-14T08:39:48.107256Z",
+            "pid": 120,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          }
+        ]
+      },
+      "error": null,
+      "request_id": "76666c7fb358400a949e63b5fa936235",
+      "duration_ms": 5470.13,
+      "observed_at": "2026-11-14T09:00:08.293121+00:00"
+    },
+    {
+      "tool": "airflow_logs",
+      "status": "ok",
+      "data": {
+        "logs": "{'content': [{'event': '::group::Log message source details', 'sources': ['/opt/airflow/logs/dag_id=ml_training/run_id=agent__8f8761ce860c4d0d88b51674064dfbb1/task_id=quality_gate/attempt=3.log']}, {'event': '::endgroup::'}, {'timestamp': '2026-11-14T08:39:48.876888Z', 'event': 'DAG bundles loaded: dags-folder', 'level': 'info', 'logger': 'airflow.dag_processing.bundles.manager.DagBundlesManager', 'filename': 'manager.py', 'lineno': 179}, {'timestamp': '2026-11-14T08:39:48.893815Z', 'event': 'Filling up the DagBag from /opt/project/dags/training_pipeline.py', 'level': 'info', 'logger': 'airflow.models.dagbag.DagBag', 'filename': 'dagbag.py', 'lineno': 593}, {'timestamp': '2026-11-14T08:40:10.434554Z', 'event': 'Task failed with exception', 'level': 'error', 'logger': 'task', 'filename': 'task_runner.py', 'lineno': 994, 'error_detail': [{'exc_type': 'ValueError', 'exc_value': 'Quality gate failed: F1=0.9333 < 1.01', 'exc_notes': [], 'syntax_error': None, 'is_cause': False, 'frames': [{'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/execution_time/task_runner.py', 'lineno': 920, 'name': 'run'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/execution_time/task_runner.py', 'lineno': 1307, 'name': '_execute_task'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/bases/operator.py', 'lineno': 416, 'name': 'wrapper'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/bases/decorator.py', 'lineno': 252, 'name': 'execute'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/bases/operator.py', 'lineno': 416, 'name': 'wrapper'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/providers/standard/operators/python.py', 'lineno': 216, 'name': 'execute'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/providers/standard/operators/python.py', 'lineno': 239, 'name': 'execute_callable'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/execution_time/callback_runner.py', 'lineno': 82, 'name': 'run'}, {'filename': '/opt/project/dags/training_pipeline.py', 'lineno': 76, 'name': 'quality_gate'}, {'filename': '/opt/project/training/train.py', 'lineno': 139, 'name': 'quality_gate'}], 'is_group': False, 'exceptions': []}]}], 'continuation_token': None}"
+      },
+      "error": null,
+      "request_id": "76666c7fb358400a949e63b5fa936235",
+      "duration_ms": 7582.91,
+      "observed_at": "2026-11-14T09:00:15.876427+00:00"
+    },
+    {
+      "tool": "airflow_tasks",
+      "status": "ok",
+      "data": {
+        "task_instances": [
+          {
+            "id": "01a1d92e-fa78-77c0-913d-3b1cacf0aee8",
+            "task_id": "preprocessing",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__3fe7c824bf6d4ea1b42111608b6c4d17",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:27.509519Z",
+            "run_after": "2026-11-14T08:31:27.509519Z",
+            "start_date": "2026-11-14T08:33:05.241176Z",
+            "end_date": "2026-11-14T08:33:05.241176Z",
+            "duration": 0.0,
+            "state": "upstream_failed",
+            "try_number": 0,
+            "max_tries": 2,
+            "task_display_name": "preprocessing",
+            "dag_display_name": "ml_training",
+            "hostname": "",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 4,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": null,
+            "scheduled_when": null,
+            "pid": null,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a1d92e-fa79-7267-b77e-a6d96be37e93",
+            "task_id": "training",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__3fe7c824bf6d4ea1b42111608b6c4d17",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:27.509519Z",
+            "run_after": "2026-11-14T08:31:27.509519Z",
+            "start_date": "2026-11-14T08:33:06.340810Z",
+            "end_date": "2026-11-14T08:33:06.340810Z",
+            "duration": 0.0,
+            "state": "upstream_failed",
+            "try_number": 0,
+            "max_tries": 2,
+            "task_display_name": "training",
+            "dag_display_name": "ml_training",
+            "hostname": "",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 3,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": null,
+            "scheduled_when": null,
+            "pid": null,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a1d92e-fa7a-73c6-8efd-92f3297e4857",
+            "task_id": "evaluation_mlflow",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__3fe7c824bf6d4ea1b42111608b6c4d17",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:27.509519Z",
+            "run_after": "2026-11-14T08:31:27.509519Z",
+            "start_date": "2026-11-14T08:33:06.338006Z",
+            "end_date": "2026-11-14T08:33:06.338006Z",
+            "duration": 0.0,
+            "state": "upstream_failed",
+            "try_number": 0,
+            "max_tries": 2,
+            "task_display_name": "evaluation_mlflow",
+            "dag_display_name": "ml_training",
+            "hostname": "",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 2,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": null,
+            "scheduled_when": null,
+            "pid": null,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a1d92e-fa7b-77f7-b224-536c88eff03b",
+            "task_id": "quality_gate",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__3fe7c824bf6d4ea1b42111608b6c4d17",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:27.509519Z",
+            "run_after": "2026-11-14T08:31:27.509519Z",
+            "start_date": "2026-11-14T08:33:07.439071Z",
+            "end_date": "2026-11-14T08:33:07.439071Z",
+            "duration": 0.0,
+            "state": "upstream_failed",
+            "try_number": 0,
+            "max_tries": 2,
+            "task_display_name": "quality_gate",
+            "dag_display_name": "ml_training",
+            "hostname": "",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 1,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": null,
+            "scheduled_when": null,
+            "pid": null,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a1d930-170f-76b5-a95c-de4c5e69a24c",
+            "task_id": "validation",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__3fe7c824bf6d4ea1b42111608b6c4d17",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:27.509519Z",
+            "run_after": "2026-11-14T08:31:27.509519Z",
+            "start_date": "2026-11-14T08:33:00.724775Z",
+            "end_date": "2026-11-14T08:33:05.025137Z",
+            "duration": 4.300362,
+            "state": "failed",
+            "try_number": 3,
+            "max_tries": 2,
+            "task_display_name": "validation",
+            "dag_display_name": "ml_training",
+            "hostname": "b58c54df6502",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 5,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": "2026-11-14T08:33:00.654867Z",
+            "scheduled_when": "2026-11-14T08:33:00.621860Z",
+            "pid": 80,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          }
+        ],
+        "total_entries": 5,
+        "failed_tasks": [
+          {
+            "id": "01a1d92e-fa78-77c0-913d-3b1cacf0aee8",
+            "task_id": "preprocessing",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__3fe7c824bf6d4ea1b42111608b6c4d17",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:27.509519Z",
+            "run_after": "2026-11-14T08:31:27.509519Z",
+            "start_date": "2026-11-14T08:33:05.241176Z",
+            "end_date": "2026-11-14T08:33:05.241176Z",
+            "duration": 0.0,
+            "state": "upstream_failed",
+            "try_number": 0,
+            "max_tries": 2,
+            "task_display_name": "preprocessing",
+            "dag_display_name": "ml_training",
+            "hostname": "",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 4,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": null,
+            "scheduled_when": null,
+            "pid": null,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a1d92e-fa79-7267-b77e-a6d96be37e93",
+            "task_id": "training",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__3fe7c824bf6d4ea1b42111608b6c4d17",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:27.509519Z",
+            "run_after": "2026-11-14T08:31:27.509519Z",
+            "start_date": "2026-11-14T08:33:06.340810Z",
+            "end_date": "2026-11-14T08:33:06.340810Z",
+            "duration": 0.0,
+            "state": "upstream_failed",
+            "try_number": 0,
+            "max_tries": 2,
+            "task_display_name": "training",
+            "dag_display_name": "ml_training",
+            "hostname": "",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 3,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": null,
+            "scheduled_when": null,
+            "pid": null,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a1d92e-fa7a-73c6-8efd-92f3297e4857",
+            "task_id": "evaluation_mlflow",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__3fe7c824bf6d4ea1b42111608b6c4d17",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:27.509519Z",
+            "run_after": "2026-11-14T08:31:27.509519Z",
+            "start_date": "2026-11-14T08:33:06.338006Z",
+            "end_date": "2026-11-14T08:33:06.338006Z",
+            "duration": 0.0,
+            "state": "upstream_failed",
+            "try_number": 0,
+            "max_tries": 2,
+            "task_display_name": "evaluation_mlflow",
+            "dag_display_name": "ml_training",
+            "hostname": "",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 2,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": null,
+            "scheduled_when": null,
+            "pid": null,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a1d92e-fa7b-77f7-b224-536c88eff03b",
+            "task_id": "quality_gate",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__3fe7c824bf6d4ea1b42111608b6c4d17",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:27.509519Z",
+            "run_after": "2026-11-14T08:31:27.509519Z",
+            "start_date": "2026-11-14T08:33:07.439071Z",
+            "end_date": "2026-11-14T08:33:07.439071Z",
+            "duration": 0.0,
+            "state": "upstream_failed",
+            "try_number": 0,
+            "max_tries": 2,
+            "task_display_name": "quality_gate",
+            "dag_display_name": "ml_training",
+            "hostname": "",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 1,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": null,
+            "scheduled_when": null,
+            "pid": null,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a1d930-170f-76b5-a95c-de4c5e69a24c",
+            "task_id": "validation",
+            "dag_id": "ml_training",
+            "dag_run_id": "agent__3fe7c824bf6d4ea1b42111608b6c4d17",
+            "map_index": -1,
+            "logical_date": "2026-11-14T08:31:27.509519Z",
+            "run_after": "2026-11-14T08:31:27.509519Z",
+            "start_date": "2026-11-14T08:33:00.724775Z",
+            "end_date": "2026-11-14T08:33:05.025137Z",
+            "duration": 4.300362,
+            "state": "failed",
+            "try_number": 3,
+            "max_tries": 2,
+            "task_display_name": "validation",
+            "dag_display_name": "ml_training",
+            "hostname": "b58c54df6502",
+            "unixname": "airflow",
+            "pool": "default_pool",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 5,
+            "operator": "_PythonDecoratedOperator",
+            "operator_name": "@task",
+            "queued_when": "2026-11-14T08:33:00.654867Z",
+            "scheduled_when": "2026-11-14T08:33:00.621860Z",
+            "pid": 80,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a1d92d-12a1-7a16-80df-7d3c57f20507",
+              "version_number": 1,
+              "dag_id": "ml_training",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-11-14T08:29:32.193389Z",
+              "dag_display_name": "ml_training",
+              "bundle_url": null
+            }
+          }
+        ]
+      },
+      "error": null,
+      "request_id": "76666c7fb358400a949e63b5fa936235",
+      "duration_ms": 6824.63,
+      "observed_at": "2026-11-14T09:00:22.701423+00:00"
+    },
+    {
+      "tool": "airflow_logs",
+      "status": "ok",
+      "data": {
+        "logs": "{'content': [{'event': '::group::Log message source details', 'sources': ['/opt/airflow/logs/dag_id=ml_training/run_id=agent__3fe7c824bf6d4ea1b42111608b6c4d17/task_id=validation/attempt=3.log']}, {'event': '::endgroup::'}, {'timestamp': '2026-11-14T08:33:01.136764Z', 'event': 'DAG bundles loaded: dags-folder', 'level': 'info', 'logger': 'airflow.dag_processing.bundles.manager.DagBundlesManager', 'filename': 'manager.py', 'lineno': 179}, {'timestamp': '2026-11-14T08:33:01.141341Z', 'event': 'Filling up the DagBag from /opt/project/dags/training_pipeline.py', 'level': 'info', 'logger': 'airflow.models.dagbag.DagBag', 'filename': 'dagbag.py', 'lineno': 593}, {'timestamp': '2026-11-14T08:33:04.971934Z', 'event': 'Validating schema, finite values, class support and committed dataset digest', 'level': 'info', 'logger': 'unusual_prefix_61ec8ebdd7b5ef53fb4a323546fa1cd2b8bdafbf_training_pipeline', 'filename': 'training_pipeline.py', 'lineno': 38}, {'timestamp': '2026-11-14T08:33:04.984886Z', 'event': 'Task failed with exception', 'level': 'error', 'logger': 'task', 'filename': 'task_runner.py', 'lineno': 994, 'error_detail': [{'exc_type': 'ValueError', 'exc_value': 'Injected validation failure: required feature petal_width missing', 'exc_notes': [], 'syntax_error': None, 'is_cause': False, 'frames': [{'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/execution_time/task_runner.py', 'lineno': 920, 'name': 'run'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/execution_time/task_runner.py', 'lineno': 1307, 'name': '_execute_task'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/bases/operator.py', 'lineno': 416, 'name': 'wrapper'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/bases/decorator.py', 'lineno': 252, 'name': 'execute'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/bases/operator.py', 'lineno': 416, 'name': 'wrapper'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/providers/standard/operators/python.py', 'lineno': 216, 'name': 'execute'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/providers/standard/operators/python.py', 'lineno': 239, 'name': 'execute_callable'}, {'filename': '/usr/local/lib/python3.11/site-packages/airflow/sdk/execution_time/callback_runner.py', 'lineno': 82, 'name': 'run'}, {'filename': '/opt/project/dags/training_pipeline.py', 'lineno': 39, 'name': 'validation'}, {'filename': '/opt/project/training/train.py', 'lineno': 25, 'name': 'validate'}], 'is_group': False, 'exceptions': []}]}], 'continuation_token': None}"
+      },
+      "error": null,
+      "request_id": "76666c7fb358400a949e63b5fa936235",
+      "duration_ms": 4946.68,
+      "observed_at": "2026-11-14T09:00:27.648597+00:00"
     }
   ],
   "prompt": "Find the best recent model, identify the dataset version used to train it, check the deployment status, and explain whether retraining is necessary",
-  "evidence_kind": "actual tool calls; unavailable services are errors, never simulated successes"
+  "evidence_kind": "actual tool calls after bounded cold-start timeout adjustment"
 }

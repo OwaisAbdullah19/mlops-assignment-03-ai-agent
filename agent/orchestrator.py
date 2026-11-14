@@ -78,15 +78,15 @@ class Agent:
         for run in (data or {}).get("dag_runs", [])[:2]:
             if run.get("state") == "failed":
                 tasks = execute("airflow_tasks", dag_id=self.settings.dag_id, run_id=run["dag_run_id"])
-                for task in (tasks or {}).get("failed_tasks", [])[:2]:
-                    if task.get("state") == "failed":
-                        execute(
-                            "airflow_logs",
-                            dag_id=self.settings.dag_id,
-                            run_id=run["dag_run_id"],
-                            task_id=task["task_id"],
-                            try_number=max(1, task.get("try_number", 1)),
-                        )
+                failed = [t for t in (tasks or {}).get("failed_tasks", []) if t.get("state") == "failed"]
+                for task in failed[:2]:
+                    execute(
+                        "airflow_logs",
+                        dag_id=self.settings.dag_id,
+                        run_id=run["dag_run_id"],
+                        task_id=task["task_id"],
+                        try_number=max(1, task.get("try_number", 1)),
+                    )
 
     def _rules(self, message, execute, uncertainties):
         """Explicit fallback for five documented scenarios; this is not an LLM."""
@@ -283,6 +283,13 @@ class Agent:
                 )
                 if not rows:
                     uncertainties.append(f"No recent training DAG runs found. {source}")
+                for run in rows:
+                    injection = (run.get("conf") or {}).get("failure")
+                    if injection in ("validation", "quality"):
+                        facts.append(
+                            f"Run {run['dag_run_id']} declares a controlled {injection} failure injection; "
+                            f"this test alone does not establish production model degradation. {source}"
+                        )
             elif result.tool == "airflow_tasks":
                 facts.extend(
                     f"Task {t['task_id']}: {t['state']}. {source}" for t in data.get("task_instances", [])
@@ -341,6 +348,10 @@ class Agent:
             recommendations.append(
                 "Available evidence does not establish that retraining is necessary. No retraining was initiated."
             )
+        if not any("No retraining was initiated" in value for value in recommendations) and not any(
+            r.tool == "airflow_trigger" and r.status == "ok" for r in results
+        ):
+            recommendations.append("No retraining was initiated.")
         sections = []
         for title, values in (
             ("Known facts", facts),

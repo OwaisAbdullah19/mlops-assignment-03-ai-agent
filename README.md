@@ -29,11 +29,16 @@ Run the complete read-only question without copying tokens:
 .\.venv\Scripts\python.exe -m scripts.demo
 ```
 
+Double-click `Chat.cmd` for an interactive conversation using the same prepared
+configuration, or run `python -m scripts.chat`. Type `exit` to close it. Mutation requests
+still require reviewing and separately confirming the exact proposed action.
+
 The verified Qwen2.5 0.5B GGUF and official llama.cpp `b12375` Windows CPU binary are stored
 under `.runtime/`, outside Git. `scripts.download_llm` and `scripts.download_llama` reproduce
 these downloads and verify the upstream SHA-256 digests. The prepared `.env` selects
 `AGENT_PLANNER=llamacpp`, `OLLAMA_MODEL=qwen2.5:0.5b`, and a 360-second LLM timeout for this
-CPU. The mandatory cross-service request follows the fixed evidence workflow in every mode.
+CPU. Prepared tool requests have a bounded 60-second timeout; MLflow's server worker has a
+120-second cold-start limit. The mandatory cross-service request follows the fixed evidence workflow in every mode.
 Other requests use real structured model tool selection. The small model can select the
 wrong tool; returned facts still require successful registry execution. The five standard
 conversation exports identify their rule planner; `live-llm-demo.json` records the separate
@@ -43,6 +48,7 @@ After a reboot, restart the prepared container services and refresh the short-li
 credentials before restarting the agent:
 
 ```powershell
+.\.venv\Scripts\python.exe -m scripts.local_services start --service wsl
 .\.venv\Scripts\python.exe -m scripts.wsl env MLFLOW_PUBLISHED_PORT=5002 docker compose -p mlops-a3 up -d
 .\.venv\Scripts\python.exe -m scripts.wsl bash scripts/setup_kubernetes.sh
 # Wait for Airflow and its DAG before connecting; service-account credentials last 24 hours.
@@ -61,6 +67,11 @@ To stop the prepared containers, use `scripts.wsl env MLFLOW_PUBLISHED_PORT=5002
 compose -p mlops-a3 stop` and `scripts.wsl docker stop mlops-a3-k3s`, prefixed with the
 workspace Python command. Data volumes are retained. The fresh-clone reference instructions
 below use ports 5000 and 8000; this prepared workspace uses the endpoints above.
+
+`python -m scripts.status` checks all five prepared endpoints. The launcher retains a tracked
+Ubuntu WSL session because systemd services alone do not keep WSL alive
+([Microsoft's WSL guidance](https://learn.microsoft.com/en-us/windows/wsl/systemd)). This
+avoids shutting down Docker between CLI commands; it does not change global WSL settings.
 
 ## Install
 

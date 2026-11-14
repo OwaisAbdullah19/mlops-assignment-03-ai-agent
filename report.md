@@ -25,11 +25,11 @@ responses separate known facts, uncertainty, and recommended actions and attach 
 |---|---|---|
 | DVC (15) | Five read tools, historical Git pointer resolution, DVC hash comparison, status, diff, isolated reproduction script | Real local DVC evidence plus path/provenance tests |
 | MLflow (15) | Six client tools, bounded recent-run ranking, metric direction, parameters/artifacts, registry versions, recorded data provenance | Real tracked training/ranking where configured; mocked failure/ranking tests |
-| Airflow (15) | Airflow 3 JWT `/api/v2` client, five tools, five-stage TaskFlow DAG, retries and task diagnostics | Auth/path/failure tests; live DAG run remains environment-dependent |
+| Airflow (15) | Airflow 3 JWT `/api/v2` client, five tools, five-stage TaskFlow DAG, retries and task diagnostics | Real successful five-stage DAG, two injected failed DAGs, retries, blocked downstream tasks and failure logs |
 | Kubernetes (15) | Six tools, namespace/app checks, confirmed restart, two-replica Deployment, ClusterIP, ConfigMap, resources and health probes | Real two-replica rollout, served model/prediction, namespace RBAC denial and authorization tests |
-| Integration (15) | Mandatory four-service scenario, timestamped evidence, run-to-dataset/deployment correlation, policy-based retraining review | Cross-service and no-automatic-trigger tests; actual partial-service export |
+| Integration (15) | Mandatory four-service scenario, timestamped evidence, run-to-dataset/deployment correlation, policy-based retraining review | Live service exports plus cross-service and no-automatic-trigger tests |
 | Reliability (10) | Pytest, timeouts, safe exception handling, structured audit, confirmation expiry/replay defense, injected failures | Executed test XML and failure exports |
-| Repository/CI (5) | Pinned direct dependencies, local Git source, Dockerfiles, manifests, PR lint/format/test workflow | Local checks; remote push and hosted CI require a GitHub repository |
+| Repository/CI (5) | Pinned direct dependencies, Git source, Dockerfiles, manifests, PR lint/format/test workflow | Private GitHub repository published; hosted Python 3.11 lint/format/tests passed |
 | Defense (10) | Architecture, tool permissions, five captured conversations, failure investigations, demo commands | Local evidence plus explicit remaining live demonstration steps |
 
 This table describes coverage, not an awarded score. Successful live Airflow execution,
@@ -39,10 +39,10 @@ from local source implementation and automated tests.
 ## Measured local results
 
 The actual Windows validation environment used Python 3.13.9 with the pinned project
-dependencies. `pytest` completed **33 tests successfully**; Ruff lint/format checks, parsing
+dependencies. `pytest` completed **35 tests successfully**; Ruff lint/format checks, parsing
 of all eight infrastructure/CI YAML files, and `pip check` passed. Six dependency warnings
 (Starlette/AnyIO deprecation and sklearn/SciPy optimizer-option warnings) were reported;
-they did not fail the tests. Docker inference uses Python 3.11; hosted CI remains unexecuted.
+they did not fail the tests. Docker inference and successful hosted CI use Python 3.11.
 
 A real temporary HTTP MLflow server recorded these finished candidates:
 
@@ -61,7 +61,7 @@ from candidate selection. The temporary HTTP server was stopped after evidence c
 The recorded database and artifacts were migrated using a consistent SQLite snapshot to
 the isolated Docker MLflow service on port 5002. The winner is served by two ready K3s
 replicas, with matching declared and loaded run identity. Live `/metadata` and `/predict`
-requests returned HTTP 200. The final Pods have zero restarts. The agent uses a namespaced
+requests returned HTTP 200. Actual Pod restart counts are retained in the evidence. The agent uses a namespaced
 service account: a real request to list Pods in `default` returned HTTP 403. The deployment,
 prediction, RBAC denial and LLM runtime/model digests have separate live evidence exports.
 
@@ -116,14 +116,25 @@ for unavailable infrastructure. They are not synthetic transcripts.
 |---|---|---|
 | Dataset provenance | Which version is tracked and how is it reproduced? | Committed DVC hash, Git reference, status and isolated retrieval export |
 | Model selection | Compare recent runs by F1 | Recorded MLflow run metrics, parameters, provenance and selected candidate |
-| Pipeline execution/status | What is the training workflow state? | Airflow result envelope; successful run/task evidence requires live Airflow and a separately confirmed trigger |
-| Deployment diagnosis | Why is the prediction API unavailable? | Kubernetes result envelope; Pod/log/event results require a configured cluster |
+| Pipeline execution/status | What is the training workflow state? | Actual failed DAGs, task states, three-attempt retries and original failure logs |
+| Deployment diagnosis | Why is the prediction API unavailable? | Actual two-ready-replica state; the agent does not invent an outage when the service is healthy |
 | Multi-tool reasoning | Best model + dataset + deployment + retraining? | All four integrations are called; missing service results remain unknown and retraining is not triggered |
 
-To complete the live demonstration, run the README's Compose and Kubernetes commands,
-confirm an approved training request, wait for terminal DAG/task states, verify two ready
-replicas and `/metadata`, and refresh the evidence exports. Optional screenshots belong in
-`screenshots/`; exported JSON is acceptable evidence under the assignment.
+The setup operator submitted three reviewed proposals through the agent API and separately
+confirmed each exact action for the user-requested demonstration. No model self-approved a
+mutation. `evidence/live-pipeline-executions.json` contains the accepted trigger responses,
+terminal DAG/task states and failure logs, without confirmation capabilities:
+
+| Failure setting | Actual Airflow DAG run | Terminal result |
+|---|---|---|
+| none | `agent__67f959bfee9448c9acb5f47cbfaa849d` | Success; all five stages succeeded on attempt 1 |
+| validation | `agent__3fe7c824bf6d4ea1b42111608b6c4d17` | Validation failed on attempt 3; all four downstream stages were upstream_failed |
+| quality | `agent__8f8761ce860c4d0d88b51674064dfbb1` | Evaluation completed; quality gate failed on attempt 3 |
+
+The quality demonstration's first evaluation attempt encountered a real ten-second
+`git rev-parse HEAD` timeout under resource pressure. Its configured retry succeeded;
+`live-evaluation-retry.json` preserves the original diagnostic. No run was retriggered to
+hide that failure. Exported JSON is accepted assignment evidence; screenshots are optional.
 
 ## Failure investigation 1: validation failure
 
@@ -136,8 +147,9 @@ cannot train or promote after this failure.
 This is distinguishable from an MLflow outage or an unhealthy inference Pod.
 
 **Diagnosis:** Query the recent failed DAG run, retrieve task instances, identify `validation`
-as failed, then read its log. For a live Airflow run, the agent's returned tool evidence
-must show those task states before claiming a pipeline diagnosis.
+as failed, then read its log. The live export shows validation failed after three attempts
+and all downstream stages blocked. Diagnostic selection filters actual failed tasks before
+applying its two-task log limit, so upstream_failed entries cannot hide the original cause.
 
 **Resolution:** Remove the injection, validate the source schema and rerun the approved DAG
 with confirmation. A normal local training run validates successfully; live recovery must
@@ -153,8 +165,9 @@ No approved artifact is created, and a failed-quality model is not registered or
 Any older approval is removed before rerun so it cannot survive a failed attempt.
 
 **Diagnosis:** Read MLflow's actual F1 and `quality.passed=false`, then inspect the failed
-Airflow `quality_gate` task and its log if live Airflow is available. The local failure export
-records the actual measured score, threshold and absence of an approval artifact.
+Airflow `quality_gate` task and its log. The live log records `F1=0.9333 < 1.01` on the
+third failed attempt. The local failure export also records the measured score, threshold
+and absence of an approval artifact.
 
 **Resolution:** Restore the normal 0.85 policy for this controlled test and rerun. In a real
 quality regression, investigate data, features and parameters before requesting retraining;
@@ -167,15 +180,16 @@ K3s v1.33.3 cluster. Kubernetes and llama.cpp have real successful evidence expo
 Ollama's native protocol is covered by a mocked contract test. The small CPU model was
 tested on an explicit tool-selection request, not a broad language-understanding benchmark.
 Cold prompt processing can take minutes; the prepared LLM timeout is 360 seconds and
-generation is bounded. No GitHub remote or connected credentials were provided, so
-publication and hosted CI results are not claimed.
+generation is bounded. The private repository is published at
+[OwaisAbdullah19/mlops-assignment-03-ai-agent](https://github.com/OwaisAbdullah19/mlops-assignment-03-ai-agent).
+`evidence/github-ci.json` records the actual successful hosted CI run and its checked commit.
 
 An unexpected deployment failure provided a practical diagnosis exercise: Pods initially
 remained Pending with the event `node.cloudprovider.kubernetes.io/uninitialized`. The local
 cluster has no cloud provider; removing that retained bootstrap taint allowed scheduling.
 Initial liveness probes then killed slow cold-start imports. A startup probe gates liveness
 for up to five minutes, and numerical libraries use one thread. The final replacement Pods
-became ready without restarts. Unused Helm/cloud controllers were disabled for this local
+became ready. Unused Helm/cloud controllers were disabled for this local
 cluster after their startup retries. Events, readiness checks and final model identity,
 rather than a successful `apply` command alone, established recovery.
 
@@ -185,6 +199,14 @@ remote is not shared storage. Confirmation capabilities are process-local and do
 multiple workers. The Compose stack uses local standalone Airflow and an educational MLflow
 deployment, not a production topology. Drift detection, richer telemetry, distributed
 confirmation storage, federated identity and immutable model/image promotion are next steps.
+
+The laptop's existing WSL configuration limits Linux to 4 GB without swap; global settings
+were preserved. Cold-start resource pressure caused a real MLflow Gunicorn worker timeout.
+The final configuration uses one worker with a 120-second server limit and bounded 60-second
+agent requests. A 15-second job heartbeat gives the DAG processor a health interval suited
+to the observed delays. Transient failed captures remain in `resource-timeouts.json` rather
+than being misrepresented as successful results. The launcher also retains an owned WSL
+session so background systemd services are not lost between commands.
 
 ## Engineering defense prompts
 

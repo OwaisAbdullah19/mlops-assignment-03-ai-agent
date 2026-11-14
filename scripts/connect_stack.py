@@ -4,6 +4,7 @@ import argparse
 import json
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 import httpx
@@ -70,6 +71,21 @@ def main():
         update_env({"KUBECONFIG": str(path)})
         print("Agent configured with namespace-scoped Kubernetes credentials (24 hours)")
     if args.airflow:
+        print("Waiting for the Airflow API to finish startup", flush=True)
+        with httpx.Client(trust_env=False, timeout=30) as client:
+            deadline = time.monotonic() + 300
+            while time.monotonic() < deadline:
+                try:
+                    if (
+                        client.get("http://localhost:8080/api/v2/monitor/health", timeout=3).status_code
+                        == 200
+                    ):
+                        break
+                except httpx.HTTPError:
+                    pass
+                time.sleep(2)
+            else:
+                raise RuntimeError("Airflow API did not become ready within five minutes")
         users = json.loads(
             docker(
                 "exec",

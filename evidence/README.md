@@ -22,6 +22,12 @@ mocked; they are never presented as live service results.
 | `live-kubernetes.json` | Two ready replicas and real HTTP 403 outside the agent's namespace |
 | `live-kubernetes-inference.json` | Kubernetes-served model identity and successful prediction |
 | `latest-demo.json` | Most recent authenticated live cross-service HTTP conversation |
+| `github-ci.json` | Actual private GitHub repository, checked commit, CI job and step results |
+| `live-pipeline-executions.json` | Three separately confirmed real DAG triggers, terminal tasks and original failure logs |
+| `live-promotion-gates.json` | Normal run has approval; validation/quality failure runs have no approved artifact |
+| `live-evaluation-retry.json` | Original ten-second Git provenance timeout before a successful automatic evaluation retry |
+| `resource-timeouts.json` | Preserved failed model-selection attempts during MLflow cold-start worker termination |
+| `live-services.json` | Timestamped endpoint and Airflow component health snapshot |
 
 Re-run `python -m scripts.capture_evidence` after configuring live services. Successful
 Airflow execution and Kubernetes rollout evidence must be captured on a machine with Docker

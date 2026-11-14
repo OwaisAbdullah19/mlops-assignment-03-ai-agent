@@ -1,35 +1,159 @@
 {
-  "request_id": "7ea07ac8d9884629b5fb7b1a98ec7159",
+  "request_id": "30d69139556547aa87f08e4d771787de",
   "planner": "rules",
-  "answer": "Uncertainties:\n- kubernetes_deployments: Service unavailable or operation failed; state is unknown. [E1 kubernetes_deployments]\n- kubernetes_pods: Service unavailable or operation failed; state is unknown. [E2 kubernetes_pods]\n- kubernetes_services: Service unavailable or operation failed; state is unknown. [E3 kubernetes_services]\n\nRecommended actions:\n- Available evidence does not establish that retraining is necessary. No retraining was initiated.",
+  "answer": "Known facts:\n- Deployment iris-api: 2/2 ready, images ['mlops-inference:ce387cbddbdb']. [E1 kubernetes_deployments]\n- Pod iris-api-675b4f5497-8c7s8: phase=Running, ready=True, containers=[{'name': 'inference', 'ready': True, 'restarts': 3, 'reason': None, 'image': 'docker.io/library/mlops-inference:ce387cbddbdb'}]. [E2 kubernetes_pods]\n- Pod iris-api-675b4f5497-9nqb7: phase=Running, ready=True, containers=[{'name': 'inference', 'ready': True, 'restarts': 3, 'reason': None, 'image': 'docker.io/library/mlops-inference:ce387cbddbdb'}]. [E2 kubernetes_pods]\n- kubernetes_services: {\"services\": [{\"name\": \"iris-api\", \"type\": \"ClusterIP\", \"cluster_ip\": \"10.43.175.38\", \"selector\": {\"app\": \"iris-api\"}, \"ports\": [{\"port\": 80, \"target_port\": \"http\"}]}]}. [E3 kubernetes_services]\n\nRecommended actions:\n- Available evidence does not establish that retraining is necessary. No retraining was initiated.",
   "pending_actions": [],
   "evidence": [
     {
       "tool": "kubernetes_deployments",
-      "status": "error",
-      "data": null,
-      "error": "Service unavailable or operation failed; state is unknown",
-      "request_id": "7ea07ac8d9884629b5fb7b1a98ec7159",
-      "duration_ms": 6259.22,
-      "observed_at": "2026-11-14T07:05:28.475875+00:00"
+      "status": "ok",
+      "data": {
+        "namespace": "mlops-agent",
+        "deployments": [
+          {
+            "name": "iris-api",
+            "desired": 2,
+            "ready": 2,
+            "available": 2,
+            "generation": 2,
+            "observed_generation": 2,
+            "updated": 2,
+            "images": [
+              "mlops-inference:ce387cbddbdb"
+            ],
+            "annotations": {
+              "mlops/model-run-id": "ce387cbddbdb48fa82cb5c62d189b09e"
+            }
+          }
+        ]
+      },
+      "error": null,
+      "request_id": "30d69139556547aa87f08e4d771787de",
+      "duration_ms": 32857.46,
+      "observed_at": "2026-11-14T08:44:48.271745+00:00"
     },
     {
       "tool": "kubernetes_pods",
-      "status": "error",
-      "data": null,
-      "error": "Service unavailable or operation failed; state is unknown",
-      "request_id": "7ea07ac8d9884629b5fb7b1a98ec7159",
-      "duration_ms": 0.87,
-      "observed_at": "2026-11-14T07:05:28.477584+00:00"
+      "status": "ok",
+      "data": {
+        "namespace": "mlops-agent",
+        "pods": [
+          {
+            "name": "iris-api-675b4f5497-8c7s8",
+            "phase": "Running",
+            "ready": true,
+            "containers": [
+              {
+                "name": "inference",
+                "ready": true,
+                "restarts": 3,
+                "reason": null,
+                "image": "docker.io/library/mlops-inference:ce387cbddbdb"
+              }
+            ],
+            "unhealthy": false,
+            "conditions": [
+              {
+                "type": "PodReadyToStartContainers",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "Initialized",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "Ready",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "ContainersReady",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "PodScheduled",
+                "status": "True",
+                "reason": null
+              }
+            ]
+          },
+          {
+            "name": "iris-api-675b4f5497-9nqb7",
+            "phase": "Running",
+            "ready": true,
+            "containers": [
+              {
+                "name": "inference",
+                "ready": true,
+                "restarts": 3,
+                "reason": null,
+                "image": "docker.io/library/mlops-inference:ce387cbddbdb"
+              }
+            ],
+            "unhealthy": false,
+            "conditions": [
+              {
+                "type": "PodReadyToStartContainers",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "Initialized",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "Ready",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "ContainersReady",
+                "status": "True",
+                "reason": null
+              },
+              {
+                "type": "PodScheduled",
+                "status": "True",
+                "reason": null
+              }
+            ]
+          }
+        ]
+      },
+      "error": null,
+      "request_id": "30d69139556547aa87f08e4d771787de",
+      "duration_ms": 2321.2,
+      "observed_at": "2026-11-14T08:44:50.593992+00:00"
     },
     {
       "tool": "kubernetes_services",
-      "status": "error",
-      "data": null,
-      "error": "Service unavailable or operation failed; state is unknown",
-      "request_id": "7ea07ac8d9884629b5fb7b1a98ec7159",
-      "duration_ms": 2.73,
-      "observed_at": "2026-11-14T07:05:28.480650+00:00"
+      "status": "ok",
+      "data": {
+        "services": [
+          {
+            "name": "iris-api",
+            "type": "ClusterIP",
+            "cluster_ip": "10.43.175.38",
+            "selector": {
+              "app": "iris-api"
+            },
+            "ports": [
+              {
+                "port": 80,
+                "target_port": "http"
+              }
+            ]
+          }
+        ]
+      },
+      "error": null,
+      "request_id": "30d69139556547aa87f08e4d771787de",
+      "duration_ms": 218.62,
+      "observed_at": "2026-11-14T08:44:50.813021+00:00"
     }
   ],
   "prompt": "Why is my prediction API unavailable?",

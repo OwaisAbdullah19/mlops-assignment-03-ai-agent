@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import socket
 import subprocess
 import sys
@@ -24,6 +25,9 @@ LLAMA = ROOT / ".runtime/llama/llama-server.exe"
 MODEL = ROOT / ".runtime/models/qwen2.5-0.5b-instruct-q4_k_m.gguf"
 if LLAMA.exists() and MODEL.exists():
     SERVICES["llm"] = {"port": 11434, "health": "/health", "module": "llama-server"}
+WSL = shutil.which("wsl") if os.name == "nt" else None
+if WSL:
+    SERVICES = {"wsl": {"port": None, "module": "wsl-session"}, **SERVICES}
 
 
 def environment():
@@ -56,6 +60,9 @@ def owned_process(record):
 
 
 def healthy(name):
+    if name == "wsl":
+        state = json.loads(STATE.read_text()) if STATE.exists() else {}
+        return name in state and owned_process(state[name]) is not None
     service = SERVICES[name]
     try:
         response = httpx.get(
@@ -72,7 +79,7 @@ def main():
     parser.add_argument("--service", choices=tuple(SERVICES), help="Operate on only this owned service")
     args = parser.parse_args()
     env = environment()
-    selected = set(env.get("LOCAL_SERVICES", ",".join(SERVICES)).split(","))
+    selected = set(env.get("LOCAL_SERVICES", ",".join(n for n in SERVICES if n != "wsl")).split(","))
     os.chdir(ROOT)
     state = json.loads(STATE.read_text()) if STATE.exists() else {}
     if args.action == "stop":
@@ -141,6 +148,8 @@ def main():
                 "--jinja",
                 "--no-webui",
             ]
+        if "wsl" in SERVICES:
+            commands["wsl"] = [WSL, "-d", "Ubuntu", "--exec", "sleep", "infinity"]
         for name, service in SERVICES.items():
             if args.service and name != args.service:
                 continue
@@ -148,10 +157,13 @@ def main():
                 continue
             if name in state and owned_process(state[name]) and healthy(name):
                 continue
-            with socket.socket() as sock:
-                if sock.connect_ex(("127.0.0.1", service["port"])) == 0:
-                    raise SystemExit(f"Port {service['port']} is already occupied; no process was stopped.")
-            command = commands[name] if name == "llm" else [sys.executable, *commands[name]]
+            if service["port"]:
+                with socket.socket() as sock:
+                    if sock.connect_ex(("127.0.0.1", service["port"])) == 0:
+                        raise SystemExit(
+                            f"Port {service['port']} is already occupied; no process was stopped."
+                        )
+            command = commands[name] if name in ("llm", "wsl") else [sys.executable, *commands[name]]
             with (logs / f"{name}.log").open("a", encoding="utf-8") as log:
                 process = subprocess.Popen(
                     command,
@@ -181,7 +193,8 @@ def main():
             continue
         if not args.service and name not in selected:
             continue
-        print(f"{name}: {'ready' if healthy(name) else 'unavailable'} http://localhost:{service['port']}")
+        endpoint = f"http://localhost:{service['port']}" if service["port"] else "Ubuntu session retained"
+        print(f"{name}: {'ready' if healthy(name) else 'unavailable'} {endpoint}")
 
 
 if __name__ == "__main__":
