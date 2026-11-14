@@ -30,6 +30,7 @@ The project pins direct Python dependencies in `pyproject.toml`; Airflow is pinn
 in `Dockerfile.airflow`. The checked-in validation evidence records the environment actually
 used for local checks. Do not copy this workspace's virtualenv to another machine.
 `pathspec` is pinned to 0.12.1 because DVC 3.63.0 uses an internal symbol removed in newer releases.
+SQLAlchemy is pinned to 2.0.41 because MLflow 3.1.4 imports a pool class removed in 2.1.
 
 ## Version and reproduce the dataset
 
