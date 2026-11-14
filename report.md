@@ -15,6 +15,8 @@ There are three explicitly identified planning modes. The rule router supports t
 demonstration scenarios without an LLM. Ollama and llama.cpp perform structured model tool
 calling. The prepared CPU demo uses verified Qwen2.5 0.5B GGUF and llama.cpp b12375;
 `live-llm-demo.json` records a successful real model-selected MLflow experiments query.
+`live-llm-http-demo.json` records the authenticated natural-language question "Which
+experiments are available in MLflow?" and the model-selected `mlflow_experiments` result.
 Unsupported or unavailable LLM responses cannot become operational facts. A fixed
 cross-service workflow handles the mandatory integration request in every mode. Final
 responses separate known facts, uncertainty, and recommended actions and attach evidence IDs.
@@ -178,7 +180,8 @@ never lower a legitimate gate solely to permit deployment.
 The prepared environment uses the existing Ubuntu WSL2 Docker Engine and a dedicated
 K3s v1.33.3 cluster. Kubernetes and llama.cpp have real successful evidence exports;
 Ollama's native protocol is covered by a mocked contract test. The small CPU model was
-tested on an explicit tool-selection request, not a broad language-understanding benchmark.
+tested on MLflow lookup requests, including natural-language HTTP selection, rather than a
+broad language-understanding benchmark.
 Cold prompt processing can take minutes; the prepared LLM timeout is 360 seconds and
 generation is bounded. The private repository is published at
 [OwaisAbdullah19/mlops-assignment-03-ai-agent](https://github.com/OwaisAbdullah19/mlops-assignment-03-ai-agent).

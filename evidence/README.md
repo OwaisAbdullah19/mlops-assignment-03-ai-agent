@@ -16,8 +16,9 @@ mocked; they are never presented as live service results.
 | `capture-summary.json` | Per-scenario tool success/error index |
 | `tool-audit.jsonl` | Structured tool name, status, duration and request ID logs |
 | `local-validation.json` | Environment versions, local inference response and validation scope |
-| `live-agent-demo.json` | Actual authenticated HTTP conversation and prediction against the running local services |
+| `live-agent-demo.json` | Initial native HTTP conversation and prediction before the full container stack |
 | `live-llm-demo.json` | Real Qwen/llama.cpp model-selected MLflow tool call and returned evidence |
+| `live-llm-http-demo.json` | Successful natural-language HTTP request; the model selected the MLflow tool without a tool name in the prompt |
 | `llm-provenance.json` | Pinned model revision and verified model/runtime SHA-256 digests |
 | `live-kubernetes.json` | Two ready replicas and real HTTP 403 outside the agent's namespace |
 | `live-kubernetes-inference.json` | Kubernetes-served model identity and successful prediction |
