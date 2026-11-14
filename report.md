@@ -34,6 +34,39 @@ This table describes coverage, not an awarded score. Successful live Airflow exe
 Kubernetes deployment, GitHub publication and an evaluator's engineering defense are separate
 from local source implementation and automated tests.
 
+## Measured local results
+
+The actual Windows validation environment used Python 3.13.9 with the pinned project
+dependencies. `pytest` completed **32 tests successfully**; Ruff lint/format checks, parsing
+of all eight infrastructure/CI YAML files, and `pip check` passed. Six dependency warnings
+(Starlette/AnyIO deprecation and sklearn/SciPy optimizer-option warnings) were reported;
+they did not fail the tests. Docker/CI's Python 3.11 environment has not been executed here.
+
+A real temporary HTTP MLflow server recorded these finished candidates:
+
+| Logistic regression C | MLflow run ID | Macro F1 | Accuracy |
+|---|---|---|---|
+| 0.1 | `df8eaacfb78249409fce94a031b82d2e` | 0.865320 | 0.866667 |
+| 1.0 | `de3c8116f7314c4caf07c3a979d0f584` | 0.933333 | 0.933333 |
+| 10.0 | `ce387cbddbdb48fa82cb5c62d189b09e` | 1.000000 | 1.000000 |
+
+The winner was exported from MLflow, checksum-verified, loaded into FastAPI, and returned
+readiness HTTP 200 and prediction `[0]` (setosa) for `[5.1, 3.5, 1.4, 0.2]`. The perfect
+score covers only this 30-example Iris holdout; it does not establish production readiness.
+Two earlier interrupted artifact-upload attempts remain recorded as FAILED and are excluded
+from candidate selection. The temporary HTTP server was stopped after evidence collection.
+
+The isolated DVC clone retrieved digest `4224576f0267bf88902f87f0f6200967` and verified
+that the retrieved file matches its committed pointer. Dataset status checks target the
+dataset's `.dvc` file, so a training stage without a `dvc.lock` is not mistaken for changed
+CSV contents. Full measurements and environment versions are in
+[`evidence/local-validation.json`](evidence/local-validation.json).
+
+Real integration checks also found and resolved DVC's incompatible newer `pathspec`,
+MLflow's incompatible SQLAlchemy 2.1 pool import, a Windows artifact-directory path requiring
+a `file:` URI, and Windows console encoding for MLflow's Unicode messages. These corrections
+were verified through dataset retrieval, actual artifact upload/download and inference.
+
 ## Dataset reproducibility and model selection
 
 The bootstrap exports sklearn's Iris dataset and stores its content through DVC. A committed

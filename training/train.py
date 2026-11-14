@@ -3,6 +3,7 @@ import hashlib
 import json
 import os
 import subprocess
+import sys
 from pathlib import Path
 
 import joblib
@@ -146,6 +147,8 @@ def quality_gate(output):
 
 
 def main():
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     if os.getenv("TRAINING_DEBUG_STACKS") == "1":
         import faulthandler
 

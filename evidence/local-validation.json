@@ -1,0 +1,67 @@
+{
+  "python": "3.13.9",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "versions": {
+    "mlflow": "3.1.4",
+    "dvc": "3.63.0",
+    "fastapi": "0.115.12",
+    "pydantic": "2.11.7",
+    "scikit-learn": "1.6.1",
+    "numpy": "2.2.6",
+    "pandas": "2.2.3",
+    "httpx": "0.28.1",
+    "SQLAlchemy": "2.0.41",
+    "pathspec": "0.12.1",
+    "pytest": "8.4.1",
+    "ruff": "0.12.9"
+  },
+  "tracking_kind": "real temporary local HTTP MLflow server with SQLite backend",
+  "tracking_uri": "http://127.0.0.1:59740",
+  "server_stopped_after_capture": true,
+  "inference_readiness_http": 200,
+  "prediction": {
+    "predictions": [
+      0
+    ],
+    "probabilities": [
+      [
+        0.9974832121991416,
+        0.0025167878007462704,
+        1.1196973685177623e-13
+      ]
+    ],
+    "model_run_id": "ce387cbddbdb48fa82cb5c62d189b09e"
+  },
+  "loaded_model_metadata": {
+    "app_version": "1.0.0",
+    "metrics": {
+      "f1": 1.0,
+      "accuracy": 1.0
+    },
+    "min_f1": 0.85,
+    "provenance": {
+      "dataset.path": "data/iris.csv",
+      "dataset.git_commit": "bbacb09e2f149a738a8a1dd25e2b798242462151",
+      "dataset.dvc_digest": "4224576f0267bf88902f87f0f6200967",
+      "dataset.sha256": "c52da941c4117668428d973554bb3380ba78c23400c2848e9b65107d63ccba47"
+    },
+    "run_id": "ce387cbddbdb48fa82cb5c62d189b09e",
+    "quality_passed": true,
+    "model_sha256": "6379b27cdfe8108cdb757dc749fd69b3fd10494d74aecf3b4caf43da0fde256f",
+    "feature_names": [
+      "sepal_length",
+      "sepal_width",
+      "petal_length",
+      "petal_width"
+    ],
+    "classes": [
+      "setosa",
+      "versicolor",
+      "virginica"
+    ]
+  },
+  "live_airflow": false,
+  "live_kubernetes": false,
+  "live_ollama": false,
+  "scope_note": "Airflow/Kubernetes unavailable; their exported evidence remains explicit errors."
+}

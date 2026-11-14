@@ -224,6 +224,9 @@ class Agent:
                 facts.append(
                     f"Dataset {data['dataset']}: DVC {data['dvc_digest']}, Git {data['git_commit']}. {source}"
                 )
+                if result.tool == "dvc_reproduce":
+                    facts.extend(f"Reproduce: {step}. {source}" for step in data.get("instructions", []))
+                    facts.append(f"{data.get('note', 'Commands are instructions only.')}. {source}")
                 if data.get("matches_recorded_digest") is False:
                     uncertainties.append(
                         f"Recorded dataset digest does not match the committed DVC pointer. {source}"

@@ -1,5 +1,6 @@
 """Run a temporary real MLflow server, train candidates and export actual local evidence."""
 
+import argparse
 import importlib.metadata
 import json
 import os
@@ -17,6 +18,14 @@ from fastapi.testclient import TestClient
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--reuse-runs", action="store_true", help="Refresh evidence using existing local training runs"
+    )
+    args = parser.parse_args()
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    os.environ["PYTHONIOENCODING"] = "utf-8"
     root = Path.cwd()
     evidence = root / "evidence"
     runtime = root / ".runtime"
@@ -80,7 +89,7 @@ def main():
                 for run in interrupted:
                     tracking.set_tag(run.info.run_id, "training.interrupted_validation", "true")
                     tracking.set_terminated(run.info.run_id, status="FAILED")
-            for c in (0.1, 1.0, 10.0):
+            for c in () if args.reuse_runs else (0.1, 1.0, 10.0):
                 subprocess.run(
                     [
                         sys.executable,

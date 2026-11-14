@@ -1,0 +1,16 @@
+[
+  {
+    "injection": "validation",
+    "error": "Injected validation failure: required feature petal_width missing",
+    "blocked": true,
+    "approved_artifact_exists": false,
+    "duration_ms": 37.6
+  },
+  {
+    "injection": "quality",
+    "error": "Quality gate failed: F1=0.9333 < 1.01",
+    "blocked": true,
+    "approved_artifact_exists": false,
+    "duration_ms": 896.42
+  }
+]

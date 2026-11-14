@@ -45,7 +45,10 @@ class DVCTools:
         }
 
     def status(self):
-        return {"changes": json.loads(self._run(["dvc", "status", "--json"]))}
+        return {
+            "changes": json.loads(self._run(["dvc", "status", "data/iris.csv.dvc", "--json"])),
+            "scope": "Training dataset pointer; unbuilt pipeline stages are excluded",
+        }
 
     def diff(self, old, new="HEAD"):
         return json.loads(self._run(["dvc", "diff", "--json", "--show-hash", old, new]))
@@ -64,7 +67,7 @@ class DVCTools:
     def register(self, r):
         r.add("dvc_list", "List DVC-tracked datasets", Empty, self.list_datasets)
         r.add("dvc_version", "Read dataset hash at a recorded Git revision", Dataset, self.version)
-        r.add("dvc_status", "Detect changes to tracked data and pipeline dependencies", Empty, self.status)
+        r.add("dvc_status", "Detect changes to the DVC-tracked training dataset", Empty, self.status)
         r.add("dvc_diff", "Compare two Git revisions of DVC data", Diff, self.diff)
         r.add(
             "dvc_reproduce",

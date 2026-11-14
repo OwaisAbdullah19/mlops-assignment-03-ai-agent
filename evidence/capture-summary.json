@@ -1,0 +1,91 @@
+[
+  {
+    "scenario": "01-dataset",
+    "tools": [
+      {
+        "tool": "dvc_list",
+        "status": "ok"
+      },
+      {
+        "tool": "dvc_version",
+        "status": "ok"
+      },
+      {
+        "tool": "dvc_status",
+        "status": "ok"
+      },
+      {
+        "tool": "dvc_reproduce",
+        "status": "ok"
+      }
+    ]
+  },
+  {
+    "scenario": "02-model-selection",
+    "tools": [
+      {
+        "tool": "mlflow_best",
+        "status": "ok"
+      }
+    ]
+  },
+  {
+    "scenario": "03-pipeline",
+    "tools": [
+      {
+        "tool": "airflow_runs",
+        "status": "error"
+      }
+    ]
+  },
+  {
+    "scenario": "04-deployment",
+    "tools": [
+      {
+        "tool": "kubernetes_deployments",
+        "status": "error"
+      },
+      {
+        "tool": "kubernetes_pods",
+        "status": "error"
+      },
+      {
+        "tool": "kubernetes_services",
+        "status": "error"
+      }
+    ]
+  },
+  {
+    "scenario": "05-multi-tool",
+    "tools": [
+      {
+        "tool": "mlflow_best",
+        "status": "ok"
+      },
+      {
+        "tool": "dvc_version",
+        "status": "ok"
+      },
+      {
+        "tool": "dvc_status",
+        "status": "ok"
+      },
+      {
+        "tool": "kubernetes_deployments",
+        "status": "error"
+      },
+      {
+        "tool": "kubernetes_pods",
+        "status": "error"
+      },
+      {
+        "tool": "kubernetes_services",
+        "status": "error"
+      },
+      {
+        "tool": "airflow_runs",
+        "status": "error"
+      }
+    ]
+  }
+]

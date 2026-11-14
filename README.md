@@ -16,6 +16,10 @@ training the Iris classifier. Ollama needs a downloaded tool-capable model for L
 
 Run from the repository root in PowerShell:
 
+If using the prepared workspace, activate its existing `.venv` and load the existing `.env`;
+the environment and model bundle have already been generated. The creation commands below
+are for a fresh clone. Local validation used Python 3.13.9; Docker/CI target Python 3.11.
+
 ```powershell
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
@@ -235,6 +239,7 @@ retrieves a DVC dataset in a new clone, exports a verified model, and tests infe
 its temporary server afterward. The persisted runs are in `.runtime/validation-mlflow.db`,
 and model artifacts remain available in `artifacts/`. This helper does not start Airflow,
 create a cluster, or modify Kubernetes.
+Use `--reuse-runs` to refresh these exports against the already recorded local candidates.
 
 ## Repository and submission
 
