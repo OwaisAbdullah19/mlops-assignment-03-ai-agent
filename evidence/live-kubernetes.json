@@ -1,0 +1,131 @@
+{
+  "observed_at": "2026-11-14T08:09:25.392794+00:00",
+  "deployments": {
+    "namespace": "mlops-agent",
+    "deployments": [
+      {
+        "name": "iris-api",
+        "desired": 2,
+        "ready": 2,
+        "available": 2,
+        "generation": 2,
+        "observed_generation": 2,
+        "updated": 2,
+        "images": [
+          "mlops-inference:ce387cbddbdb"
+        ],
+        "annotations": {
+          "mlops/model-run-id": "ce387cbddbdb48fa82cb5c62d189b09e"
+        }
+      }
+    ]
+  },
+  "pods": {
+    "namespace": "mlops-agent",
+    "pods": [
+      {
+        "name": "iris-api-675b4f5497-8c7s8",
+        "phase": "Running",
+        "ready": true,
+        "containers": [
+          {
+            "name": "inference",
+            "ready": true,
+            "restarts": 0,
+            "reason": null,
+            "image": "docker.io/library/mlops-inference:ce387cbddbdb"
+          }
+        ],
+        "unhealthy": false,
+        "conditions": [
+          {
+            "type": "PodReadyToStartContainers",
+            "status": "True",
+            "reason": null
+          },
+          {
+            "type": "Initialized",
+            "status": "True",
+            "reason": null
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "reason": null
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "reason": null
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "reason": null
+          }
+        ]
+      },
+      {
+        "name": "iris-api-675b4f5497-9nqb7",
+        "phase": "Running",
+        "ready": true,
+        "containers": [
+          {
+            "name": "inference",
+            "ready": true,
+            "restarts": 0,
+            "reason": null,
+            "image": "docker.io/library/mlops-inference:ce387cbddbdb"
+          }
+        ],
+        "unhealthy": false,
+        "conditions": [
+          {
+            "type": "PodReadyToStartContainers",
+            "status": "True",
+            "reason": null
+          },
+          {
+            "type": "Initialized",
+            "status": "True",
+            "reason": null
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "reason": null
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "reason": null
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "reason": null
+          }
+        ]
+      }
+    ]
+  },
+  "services": {
+    "services": [
+      {
+        "name": "iris-api",
+        "type": "ClusterIP",
+        "cluster_ip": "10.43.175.38",
+        "selector": {
+          "app": "iris-api"
+        },
+        "ports": [
+          {
+            "port": 80,
+            "target_port": "http"
+          }
+        ]
+      }
+    ]
+  },
+  "other_namespace_denied_http_403": true
+}

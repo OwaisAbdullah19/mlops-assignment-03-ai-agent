@@ -22,3 +22,4 @@ class Settings:
     planner: str = field(default_factory=lambda: os.getenv("AGENT_PLANNER", "rules"))
     ollama_url: str = field(default_factory=lambda: os.getenv("OLLAMA_URL", "http://localhost:11434"))
     ollama_model: str = field(default_factory=lambda: os.getenv("OLLAMA_MODEL", "qwen3:8b"))
+    llamacpp_url: str = field(default_factory=lambda: os.getenv("LLAMACPP_URL", "http://localhost:11434"))

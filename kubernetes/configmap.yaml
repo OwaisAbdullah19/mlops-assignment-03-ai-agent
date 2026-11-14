@@ -4,6 +4,8 @@ metadata:
   name: iris-config
   namespace: mlops-agent
 data:
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
   APP_VERSION: "1.0.0"
   MODEL_PATH: /app/artifacts/model.joblib
   MODEL_METADATA_PATH: /app/artifacts/metadata.json

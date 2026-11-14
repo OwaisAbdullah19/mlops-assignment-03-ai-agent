@@ -1,0 +1,26 @@
+{
+  "request_id": "ea7a38a6b1574a978ff9cf45f963b469",
+  "planner": "llamacpp",
+  "answer": "Known facts:\n- mlflow_experiments: [{\"id\": \"1\", \"name\": \"iris-training\"}, {\"id\": \"0\", \"name\": \"Default\"}]. [E1 mlflow_experiments]\n\nRecommended actions:\n- Available evidence does not establish that retraining is necessary. No retraining was initiated.",
+  "pending_actions": [],
+  "evidence": [
+    {
+      "tool": "mlflow_experiments",
+      "status": "ok",
+      "data": [
+        {
+          "id": "1",
+          "name": "iris-training"
+        },
+        {
+          "id": "0",
+          "name": "Default"
+        }
+      ],
+      "error": null,
+      "request_id": "ea7a38a6b1574a978ff9cf45f963b469",
+      "duration_ms": 9830.24,
+      "observed_at": "2026-11-14T08:08:48.142707+00:00"
+    }
+  ]
+}

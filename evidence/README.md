@@ -16,6 +16,12 @@ mocked; they are never presented as live service results.
 | `capture-summary.json` | Per-scenario tool success/error index |
 | `tool-audit.jsonl` | Structured tool name, status, duration and request ID logs |
 | `local-validation.json` | Environment versions, local inference response and validation scope |
+| `live-agent-demo.json` | Actual authenticated HTTP conversation and prediction against the running local services |
+| `live-llm-demo.json` | Real Qwen/llama.cpp model-selected MLflow tool call and returned evidence |
+| `llm-provenance.json` | Pinned model revision and verified model/runtime SHA-256 digests |
+| `live-kubernetes.json` | Two ready replicas and real HTTP 403 outside the agent's namespace |
+| `live-kubernetes-inference.json` | Kubernetes-served model identity and successful prediction |
+| `latest-demo.json` | Most recent authenticated live cross-service HTTP conversation |
 
 Re-run `python -m scripts.capture_evidence` after configuring live services. Successful
 Airflow execution and Kubernetes rollout evidence must be captured on a machine with Docker

@@ -56,7 +56,7 @@ class Agent:
             self._pod_diagnostics(pods, execute)
             runs = execute("airflow_runs", dag_id=self.settings.dag_id)
             self._workflow_diagnostics(runs, execute)
-        elif self.settings.planner == "ollama":
+        elif self.settings.planner in ("ollama", "llamacpp"):
             self._llm(message, execute, uncertainties)
         else:
             self._rules(lower, execute, uncertainties)
@@ -154,18 +154,26 @@ class Agent:
         try:
             with httpx.Client(timeout=self.settings.llm_timeout) as client:
                 for _ in range(6):
+                    native = self.settings.planner == "ollama"
+                    base = self.settings.ollama_url if native else self.settings.llamacpp_url
+                    payload = {
+                        "model": self.settings.ollama_model,
+                        "stream": False,
+                        "messages": messages,
+                        "tools": self.registry.definitions(),
+                    }
+                    payload.update(
+                        {"options": {"temperature": 0, "num_predict": 512}}
+                        if native
+                        else {"temperature": 0, "max_tokens": 512}
+                    )
                     response = client.post(
-                        self.settings.ollama_url.rstrip("/") + "/api/chat",
-                        json={
-                            "model": self.settings.ollama_model,
-                            "stream": False,
-                            "messages": messages,
-                            "tools": self.registry.definitions(),
-                            "options": {"temperature": 0},
-                        },
+                        base.rstrip("/") + ("/api/chat" if native else "/v1/chat/completions"),
+                        json=payload,
                     )
                     response.raise_for_status()
-                    assistant = response.json()["message"]
+                    body = response.json()
+                    assistant = body["message"] if native else body["choices"][0]["message"]
                     calls = assistant.get("tool_calls", [])
                     if not calls:
                         break
@@ -173,14 +181,16 @@ class Agent:
                     for call in calls[:4]:
                         function = call["function"]
                         # A model may propose a write, but cannot supply approval.
-                        data = execute(function["name"], **function.get("arguments", {}))
-                        messages.append(
-                            {
-                                "role": "tool",
-                                "tool_name": function["name"],
-                                "content": json.dumps(data, default=str)[:20000],
-                            }
-                        )
+                        arguments = function.get("arguments", {})
+                        if isinstance(arguments, str):
+                            arguments = json.loads(arguments)
+                        data = execute(function["name"], **arguments)
+                        reply = {"role": "tool", "content": json.dumps(data, default=str)[:20000]}
+                        if native:
+                            reply["tool_name"] = function["name"]
+                        else:
+                            reply["tool_call_id"] = call["id"]
+                        messages.append(reply)
                 else:
                     uncertainties.append("Planner reached its tool-round limit; evidence may be incomplete.")
         except Exception:

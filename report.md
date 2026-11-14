@@ -11,10 +11,12 @@ typed tool contracts and permissions. A conversational CLI and authenticated Fas
 API feed an evidence-collecting orchestrator. The tool registry dispatches to DVC/Git,
 MLflow's Python client, authenticated Airflow 3 APIs, and Kubernetes's Python client.
 
-There are two explicitly identified planning modes. The rule router supports the five
-demonstration scenarios without an LLM. The Ollama mode performs real structured model tool
-calling; unsupported or unavailable LLM responses cannot become operational facts. A fixed
-cross-service workflow handles the mandatory integration request in both modes. Final
+There are three explicitly identified planning modes. The rule router supports the five
+demonstration scenarios without an LLM. Ollama and llama.cpp perform structured model tool
+calling. The prepared CPU demo uses verified Qwen2.5 0.5B GGUF and llama.cpp b12375;
+`live-llm-demo.json` records a successful real model-selected MLflow experiments query.
+Unsupported or unavailable LLM responses cannot become operational facts. A fixed
+cross-service workflow handles the mandatory integration request in every mode. Final
 responses separate known facts, uncertainty, and recommended actions and attach evidence IDs.
 
 ## Implementation against the assessment
@@ -24,7 +26,7 @@ responses separate known facts, uncertainty, and recommended actions and attach 
 | DVC (15) | Five read tools, historical Git pointer resolution, DVC hash comparison, status, diff, isolated reproduction script | Real local DVC evidence plus path/provenance tests |
 | MLflow (15) | Six client tools, bounded recent-run ranking, metric direction, parameters/artifacts, registry versions, recorded data provenance | Real tracked training/ranking where configured; mocked failure/ranking tests |
 | Airflow (15) | Airflow 3 JWT `/api/v2` client, five tools, five-stage TaskFlow DAG, retries and task diagnostics | Auth/path/failure tests; live DAG run remains environment-dependent |
-| Kubernetes (15) | Six tools, namespace/app checks, confirmed restart, two-replica Deployment, ClusterIP, ConfigMap, resources and health probes | Health/restart/authorization tests; live rollout remains environment-dependent |
+| Kubernetes (15) | Six tools, namespace/app checks, confirmed restart, two-replica Deployment, ClusterIP, ConfigMap, resources and health probes | Real two-replica rollout, served model/prediction, namespace RBAC denial and authorization tests |
 | Integration (15) | Mandatory four-service scenario, timestamped evidence, run-to-dataset/deployment correlation, policy-based retraining review | Cross-service and no-automatic-trigger tests; actual partial-service export |
 | Reliability (10) | Pytest, timeouts, safe exception handling, structured audit, confirmation expiry/replay defense, injected failures | Executed test XML and failure exports |
 | Repository/CI (5) | Pinned direct dependencies, local Git source, Dockerfiles, manifests, PR lint/format/test workflow | Local checks; remote push and hosted CI require a GitHub repository |
@@ -37,10 +39,10 @@ from local source implementation and automated tests.
 ## Measured local results
 
 The actual Windows validation environment used Python 3.13.9 with the pinned project
-dependencies. `pytest` completed **32 tests successfully**; Ruff lint/format checks, parsing
+dependencies. `pytest` completed **33 tests successfully**; Ruff lint/format checks, parsing
 of all eight infrastructure/CI YAML files, and `pip check` passed. Six dependency warnings
 (Starlette/AnyIO deprecation and sklearn/SciPy optimizer-option warnings) were reported;
-they did not fail the tests. Docker/CI's Python 3.11 environment has not been executed here.
+they did not fail the tests. Docker inference uses Python 3.11; hosted CI remains unexecuted.
 
 A real temporary HTTP MLflow server recorded these finished candidates:
 
@@ -55,6 +57,13 @@ readiness HTTP 200 and prediction `[0]` (setosa) for `[5.1, 3.5, 1.4, 0.2]`. The
 score covers only this 30-example Iris holdout; it does not establish production readiness.
 Two earlier interrupted artifact-upload attempts remain recorded as FAILED and are excluded
 from candidate selection. The temporary HTTP server was stopped after evidence collection.
+
+The recorded database and artifacts were migrated using a consistent SQLite snapshot to
+the isolated Docker MLflow service on port 5002. The winner is served by two ready K3s
+replicas, with matching declared and loaded run identity. Live `/metadata` and `/predict`
+requests returned HTTP 200. The final Pods have zero restarts. The agent uses a namespaced
+service account: a real request to list Pods in `default` returned HTTP 403. The deployment,
+prediction, RBAC denial and LLM runtime/model digests have separate live evidence exports.
 
 The isolated DVC clone retrieved digest `4224576f0267bf88902f87f0f6200967` and verified
 that the retrieved file matches its committed pointer. Dataset status checks target the
@@ -153,11 +162,22 @@ never lower a legitimate gate solely to permit deployment.
 
 ## Known limitations and improvements
 
-The delivered local evidence must be read with its explicit service statuses. Docker and
-kubectl are absent from the validation machine, so a successful live Airflow/Kubernetes
-demonstration is not claimed. No GitHub remote or credentials were provided, so publication
-and hosted CI results are not claimed. Ollama planner behavior is covered using mocked
-structured responses; a live downloaded model is required to demonstrate LLM planning.
+The prepared environment uses the existing Ubuntu WSL2 Docker Engine and a dedicated
+K3s v1.33.3 cluster. Kubernetes and llama.cpp have real successful evidence exports;
+Ollama's native protocol is covered by a mocked contract test. The small CPU model was
+tested on an explicit tool-selection request, not a broad language-understanding benchmark.
+Cold prompt processing can take minutes; the prepared LLM timeout is 360 seconds and
+generation is bounded. No GitHub remote or connected credentials were provided, so
+publication and hosted CI results are not claimed.
+
+An unexpected deployment failure provided a practical diagnosis exercise: Pods initially
+remained Pending with the event `node.cloudprovider.kubernetes.io/uninitialized`. The local
+cluster has no cloud provider; removing that retained bootstrap taint allowed scheduling.
+Initial liveness probes then killed slow cold-start imports. A startup probe gates liveness
+for up to five minutes, and numerical libraries use one thread. The final replacement Pods
+became ready without restarts. Unused Helm/cloud controllers were disabled for this local
+cluster after their startup retries. Events, readiness checks and final model identity,
+rather than a successful `apply` command alone, established recovery.
 
 The reference Python environment uses pinned direct dependencies; transitive dependency
 locking and container image digest pinning would strengthen reproducibility. The local DVC

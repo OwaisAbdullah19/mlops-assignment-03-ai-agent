@@ -2,7 +2,7 @@
 
 ```mermaid
 flowchart TD
-  User[Engineer: CLI or authenticated HTTP] --> Router[Scenario router / Ollama tool planner]
+  User[Engineer: CLI or authenticated HTTP] --> Router[Scenario router / LLM tool planner]
   Router --> Registry[Typed tool registry + permission checks]
   Registry --> DVC[DVC CLI + Git pointers]
   Registry --> MLflow[MLflow Python client]
@@ -19,9 +19,10 @@ flowchart TD
   Evidence --> Report[Known facts / uncertainties / recommended actions]
 ```
 
-The default router runs five reproducible demonstration scenarios without an LLM. Set
-`AGENT_PLANNER=ollama` to enable real model-selected structured tool calls through Ollama's
-`/api/chat`. It supports six rounds and four calls per round. The mandatory integration
+The `rules` router runs five reproducible demonstration scenarios without an LLM. Set
+`AGENT_PLANNER=ollama` for Ollama's `/api/chat`, or `AGENT_PLANNER=llamacpp` for the local
+CPU server's `/v1/chat/completions`. Both support real model-selected structured calls,
+six rounds, four calls per round and bounded generation. The mandatory integration
 scenario always uses the explicit evidence-collection workflow so all four integrations are
 checked and retraining is never triggered. The LLM's prose is excluded from the final
 operational report: facts are rendered from tool results with evidence IDs.
@@ -113,3 +114,5 @@ future improvements. The provided Compose stack is for local demonstration only.
 - [MLflow Python client](https://mlflow.org/docs/latest/api_reference/python_api/mlflow.client.html)
 - [DVC diff command](https://doc.dvc.org/command-reference/diff)
 - [Ollama structured tool calling](https://github.com/ollama/ollama/blob/main/docs/capabilities/tool-calling.mdx)
+- [llama.cpp server and structured function calling](https://github.com/ggml-org/llama.cpp/tree/master/tools/server)
+- [K3s local container deployment](https://docs.k3s.io/advanced)

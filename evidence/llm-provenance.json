@@ -1,0 +1,12 @@
+{
+  "provider": "llama.cpp",
+  "build": "b12375",
+  "runtime_asset": "llama-b12375-bin-win-cpu-x64.zip",
+  "runtime_sha256": "sha256:3aa7046f1b310c404418625d4e7e7b057c2d0e0eef5557925561381373d8f026",
+  "model": {
+    "repository": "Qwen/Qwen2.5-0.5B-Instruct-GGUF",
+    "revision": "9217f5db79a29953eb74d5343926648285ec7e67",
+    "file": "qwen2.5-0.5b-instruct-q4_k_m.gguf",
+    "sha256": "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db"
+  }
+}

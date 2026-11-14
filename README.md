@@ -7,6 +7,61 @@ results drive every operational claim. State changes require separate explicit c
 Start with [the technical report](report.md), [architecture and tool permissions](architecture.md),
 and [the evidence index](evidence/README.md) for implementation and validation status.
 
+## Prepared local demo
+
+The prepared Windows workspace runs the authenticated agent and a verified CPU language
+model in hidden background processes. PostgreSQL, MLflow and Airflow run in Ubuntu WSL's
+Docker Engine; the inference model runs in a dedicated local K3s cluster.
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.local_services start
+```
+
+The prepared endpoints are MLflow `http://localhost:5002`, Airflow `http://localhost:8080`,
+Kubernetes inference `http://localhost:8002/docs`, and agent `http://localhost:8001/docs`.
+Port 11434 serves the local language model. The ignored `.env` selects these endpoints
+without displaying credentials. Windows logs are in `.runtime/services/`; `status` checks
+the owned processes and `stop` stops only those processes. Containers remain separate.
+
+Run the complete read-only question without copying tokens:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.demo
+```
+
+The verified Qwen2.5 0.5B GGUF and official llama.cpp `b12375` Windows CPU binary are stored
+under `.runtime/`, outside Git. `scripts.download_llm` and `scripts.download_llama` reproduce
+these downloads and verify the upstream SHA-256 digests. The prepared `.env` selects
+`AGENT_PLANNER=llamacpp`, `OLLAMA_MODEL=qwen2.5:0.5b`, and a 360-second LLM timeout for this
+CPU. The mandatory cross-service request follows the fixed evidence workflow in every mode.
+Other requests use real structured model tool selection. The small model can select the
+wrong tool; returned facts still require successful registry execution. The five standard
+conversation exports identify their rule planner; `live-llm-demo.json` records the separate
+real LLM selection test.
+
+After a reboot, restart the prepared container services and refresh the short-lived
+credentials before restarting the agent:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.wsl env MLFLOW_PUBLISHED_PORT=5002 docker compose -p mlops-a3 up -d
+.\.venv\Scripts\python.exe -m scripts.wsl bash scripts/setup_kubernetes.sh
+# Wait for Airflow and its DAG before connecting; service-account credentials last 24 hours.
+.\.venv\Scripts\python.exe -m scripts.connect_stack --kubernetes --airflow
+.\.venv\Scripts\python.exe -m scripts.local_services stop --service agent
+.\.venv\Scripts\python.exe -m scripts.local_services start
+```
+
+The Kubernetes service needs a local forwarding process after cluster restart:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.wsl docker exec -d mlops-a3-k3s kubectl -n mlops-agent port-forward service/iris-api 8002:80 --address 0.0.0.0
+```
+
+To stop the prepared containers, use `scripts.wsl env MLFLOW_PUBLISHED_PORT=5002 docker
+compose -p mlops-a3 stop` and `scripts.wsl docker stop mlops-a3-k3s`, prefixed with the
+workspace Python command. Data volumes are retained. The fresh-clone reference instructions
+below use ports 5000 and 8000; this prepared workspace uses the endpoints above.
+
 ## Install
 
 Use Python **3.11** for the reference environment. Airflow runs in Linux containers, including

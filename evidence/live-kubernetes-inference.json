@@ -1,0 +1,43 @@
+{
+  "metadata": {
+    "app_version": "ce387cbddbdb",
+    "metrics": {
+      "f1": 1.0,
+      "accuracy": 1.0
+    },
+    "min_f1": 0.85,
+    "provenance": {
+      "dataset.path": "data/iris.csv",
+      "dataset.git_commit": "bbacb09e2f149a738a8a1dd25e2b798242462151",
+      "dataset.dvc_digest": "4224576f0267bf88902f87f0f6200967",
+      "dataset.sha256": "c52da941c4117668428d973554bb3380ba78c23400c2848e9b65107d63ccba47"
+    },
+    "run_id": "ce387cbddbdb48fa82cb5c62d189b09e",
+    "quality_passed": true,
+    "model_sha256": "6379b27cdfe8108cdb757dc749fd69b3fd10494d74aecf3b4caf43da0fde256f",
+    "feature_names": [
+      "sepal_length",
+      "sepal_width",
+      "petal_length",
+      "petal_width"
+    ],
+    "classes": [
+      "setosa",
+      "versicolor",
+      "virginica"
+    ]
+  },
+  "prediction": {
+    "predictions": [
+      0
+    ],
+    "probabilities": [
+      [
+        0.9974832121991416,
+        0.0025167878007462704,
+        1.1196973685177623e-13
+      ]
+    ],
+    "model_run_id": "ce387cbddbdb48fa82cb5c62d189b09e"
+  }
+}
